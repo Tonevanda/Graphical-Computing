@@ -1,10 +1,10 @@
 # CG 2023/2024
 
-## Group T0xG0y
+## Group T05G07
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
-| John Doe         | 201901010 | ...                |
-| Jane Doe         | 201901011 | ...                |
+| João Miguel da Silva Lourenço         | 202108863 | up202108863@up.pt                |
+| Isabel Maria Lima Moutinho         | 202108767 | up202108767@up.pt                |
 
 ----
 
