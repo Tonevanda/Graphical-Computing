@@ -45,6 +45,7 @@ export class MyTangram extends CGFobject {
         scene.multMatrix(matrixRotate);
         this.diamond.display();
         scene.popMatrix();
+
         scene.scale(2, 2, 1);
 
         scene.pushMatrix();
@@ -78,6 +79,10 @@ export class MyTangram extends CGFobject {
         this.triangleSmall.display();
         scene.translate(-3, 0, 0);
         this.triangleSmall.display();
+        scene.popMatrix();
+
+        scene.scale(0.5, 0.5, 1);
+        
 
         // ---- END Primitive drawing section
     }
