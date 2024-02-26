@@ -101,6 +101,9 @@ export class MyScene extends CGFscene {
 
     // ---- BEGIN Primitive drawing section
     if (this.displayTangram) this.tangram.display(this);
+    
+    this.translate(0, 0, -5.1)
+    this.scale(10, 10, 10)
     if (this.displayUnitCube) this.unitCube.display(this);
     // ---- END Primitive drawing section
   }
