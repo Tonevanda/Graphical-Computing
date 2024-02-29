@@ -62,7 +62,6 @@ export class MyScene extends CGFscene {
   }
 
   display() {
-
     // ---- BEGIN Background, camera and axis setup
     // Clear image and depth buffer everytime we update the scene
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
@@ -100,6 +99,8 @@ export class MyScene extends CGFscene {
     this.multMatrix(sca);
 
     // ---- BEGIN Primitive drawing section
+    this.translate(5, 0, 5);
+    this.rotate(-Math.PI / 2, 1, 0, 0);
     if (this.displayTangram) this.tangram.display(this);
     
     this.translate(0, 0, -5.1)
