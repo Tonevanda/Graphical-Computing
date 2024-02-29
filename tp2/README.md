@@ -25,3 +25,7 @@ this.triangleSmall.display();
 Esta foi a última adição ao `Tangram`. Como é possível notar, depois destas transformações serem aplicadas, não é chamada a função `scene.popMatrix()`. Devido a isso, estavam a ser aplicadas ao `UnitCube` diversas transformações não desejadas. Após chamar a função `scene.popMatrix()`, o cubo voltou à origem e com os tamanhos **unitários**, tal como queríamos.
 
 ![tp2-2](screenshots/cg-t05g07-tp2-2.png)
+
+- O exercício 3 foi bastante straight-forward, sem algum problema.
+
+![tp2-3](screenshots/cg-t05g07-tp2-3.png)
