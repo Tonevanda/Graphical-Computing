@@ -23,7 +23,7 @@ export class MyTangram extends CGFobject {
         this.triangleSmall = new MyTriangleSmall(scene);
     }
 
-    display(scene) {
+    display() {
         var matrixTranslate = [
             1, 0, 0, 0,
             0, 1, 0, 0,
@@ -40,48 +40,48 @@ export class MyTangram extends CGFobject {
 
         // ---- BEGIN Primitive drawing section
 
-        scene.pushMatrix();
-        scene.multMatrix(matrixTranslate);
-        scene.multMatrix(matrixRotate);
+        this.scene.pushMatrix();
+        this.scene.multMatrix(matrixTranslate);
+        this.scene.multMatrix(matrixRotate);
         this.diamond.display();
-        scene.popMatrix();
+        this.scene.popMatrix();
 
-        scene.scale(2, 2, 1);
+        this.scene.scale(2, 2, 1);
 
-        scene.pushMatrix();
-        scene.translate(-1.7, 1.4, 0);
-        scene.scale(0.5, -0.5, 1);
-        scene.rotate((45 * Math.PI) / 180, 0, 0, 1);
+        this.scene.pushMatrix();
+        this.scene.translate(-1.7, 1.4, 0);
+        this.scene.scale(0.5, -0.5, 1);
+        this.scene.rotate((45 * Math.PI) / 180, 0, 0, 1);
         this.parallelogram.display();
-        scene.popMatrix();
+        this.scene.popMatrix();
 
-        scene.pushMatrix();
-        scene.translate(-0.5, 0.5, 0);
-        scene.scale(0.5, 0.5, 1);
+        this.scene.pushMatrix();
+        this.scene.translate(-0.5, 0.5, 0);
+        this.scene.scale(0.5, 0.5, 1);
         this.triangle.display();
-        scene.popMatrix();
+        this.scene.popMatrix();
 
-        scene.pushMatrix();
-        scene.translate(0, 1, 0);
-        scene.rotate((180 * Math.PI) / 180, 0, 0, 1);
+        this.scene.pushMatrix();
+        this.scene.translate(0, 1, 0);
+        this.scene.rotate((180 * Math.PI) / 180, 0, 0, 1);
         this.triangleSmall.display();
-        scene.popMatrix();
+        this.scene.popMatrix();
 
-        scene.pushMatrix();
-        scene.translate(1, 0, 0);
+        this.scene.pushMatrix();
+        this.scene.translate(1, 0, 0);
         this.triangleSmall.display();
-        scene.popMatrix();
+        this.scene.popMatrix();
 
-        scene.pushMatrix();
-        scene.translate(-0.5, 0, 0);
-        scene.scale(0.5, 0.5, 1);
-        scene.rotate((180 * Math.PI) / 180, 0, 0, 1);
+        this.scene.pushMatrix();
+        this.scene.translate(-0.5, 0, 0);
+        this.scene.scale(0.5, 0.5, 1);
+        this.scene.rotate((180 * Math.PI) / 180, 0, 0, 1);
         this.triangleSmall.display();
-        scene.translate(-3, 0, 0);
+        this.scene.translate(-3, 0, 0);
         this.triangleSmall.display();
-        scene.popMatrix();
+        this.scene.popMatrix();
 
-        scene.scale(0.5, 0.5, 1);
+        this.scene.scale(0.5, 0.5, 1);
         
 
         // ---- END Primitive drawing section
