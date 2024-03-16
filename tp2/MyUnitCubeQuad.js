@@ -9,7 +9,7 @@ import { MyQuad } from './MyQuad.js';
 export class MyUnitCubeQuad extends CGFobject {
     constructor(scene) {
         super(scene);
-        this.initBuffers(scene);
+        this.initBuffers();
     }
 
     initBuffers() {

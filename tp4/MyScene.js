@@ -1,6 +1,7 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFtexture } from "../lib/CGF.js";
 import { MyQuad } from "./MyQuad.js";
 import { MyTangram } from './MyTangram.js';
+import { MyUnitCubeQuad } from "./MyUnitCubeQuad.js";
 
 /**
  * MyScene
@@ -29,6 +30,12 @@ export class MyScene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.quad = new MyQuad(this);
         this.tangram = new MyTangram(this);
+        this.unitCubeQuad = new MyUnitCubeQuad(this, ['images/mineTop.png', 'images/mineSide.png', 'images/mineSide.png', 'images/mineSide.png', 'images/mineSide.png', 'images/mineBottom.png']);
+
+        this.objects = [this.quad, this.tangram, this.unitCubeQuad];
+
+        // Labels and ID's for object selection on MyInterface
+        this.objectIDs = { 'Quad': 0, 'Tangram': 1, 'Unit Cube Quad': 2 };
 
         //------ Applied Material
         this.quadMaterial = new CGFappearance(this);
@@ -53,8 +60,7 @@ export class MyScene extends CGFscene {
         this.wrapS = 0;
         this.wrapT = 0;
 
-        this.displayQuad = false;
-        this.displayTangram = true;
+        this.selectedObject = 0;
 
         this.textures = [this.texture1, this.texture2, this.texture3];
         this.texCoords = [0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0];
@@ -121,23 +127,8 @@ export class MyScene extends CGFscene {
         this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
 
         // ---- BEGIN Primitive drawing section
-        if (this.displayQuad) {
-            this.quadMaterial.apply();
-
-            // Default texture filtering in WebCGF is LINEAR. 
-            // Uncomment next line for NEAREST when magnifying, or 
-            // add a checkbox in the GUI to alternate in real time
-
-            // this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
-
-            this.quad.display();
-        }
-
-        if (this.displayTangram) {
-
-            this.tangram.display();
-
-        }
+        this.quadMaterial.apply();
+        this.objects[this.selectedObject].display();
         // ---- END Primitive drawing section
     }
 }
