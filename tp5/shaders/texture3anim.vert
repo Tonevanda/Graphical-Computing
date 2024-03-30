@@ -18,10 +18,8 @@ void main() {
 	
 	vTextureCoord = aTextureCoord;
 
-	animationOffset = sin(timeFactor) * normScale * 0.1;
-
 	if (texture2D(uSampler2, vec2(0.0,0.1)+vTextureCoord).b > 0.5)
-		offset = vec3(animationOffset, 0.0, 0.0);
+		offset.x = normScale * 0.1 * sin(timeFactor);
 
 	gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition+offset, 1.0);
 }
