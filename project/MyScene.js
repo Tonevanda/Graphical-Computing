@@ -57,9 +57,9 @@ export class MyScene extends CGFscene {
 
   initCameras() {
     this.camera = new CGFcamera(
-      1.0,
-      0.1,
-      1000,
+      2.0, //FOV
+      0.1, //min dist
+      1000, //max dist
       vec3.fromValues(50, 10, 15),
       vec3.fromValues(0, 0, 0)
     );
@@ -94,7 +94,7 @@ export class MyScene extends CGFscene {
     this.rotate(-Math.PI / 2.0, 1, 0, 0);
     this.plane.display();
     this.popMatrix();
-    this.sphere.display();
+    //this.sphere.display();
     this.panorama.display();
 
     // ---- END Primitive drawing section
