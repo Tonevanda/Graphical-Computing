@@ -7,10 +7,11 @@ import { CGFobject } from '../lib/CGF.js';
  * @param stacks - number of divisions along the Y axis
 */
 export class MySphere extends CGFobject {
-    constructor(scene, slices, stacks) {
+    constructor(scene, slices, stacks, inverted = false) {
         super(scene);
         this.slices = slices;
         this.stacks = stacks;
+        this.inverted = inverted;
         this.initBuffers();
     }
     initBuffers() {
@@ -34,12 +35,17 @@ export class MySphere extends CGFobject {
                 var z = sin_stack;
 
                 this.vertices.push(x, y, z);
-                this.normals.push(x, y, z);
+                (this.inverted) ? this.normals.push(-x, -y, -z) : this.normals.push(x, y, z);
 
                 if (i > 0 && j > 0) {
                     var vertices = this.vertices.length / 3;
-                    this.indices.push(vertices - 1, vertices - this.stacks - 3, vertices - 2);
-                    this.indices.push(vertices - 1, vertices - this.stacks - 2, vertices - this.stacks - 3);
+                    if (this.inverted) {
+                        this.indices.push(vertices - 1, vertices - 2, vertices - this.stacks - 3);
+                        this.indices.push(vertices - 1, vertices - this.stacks - 3, vertices - this.stacks - 2);
+                    } else {
+                        this.indices.push(vertices - 1, vertices - this.stacks - 3, vertices - 2);
+                        this.indices.push(vertices - 1, vertices - this.stacks - 2, vertices - this.stacks - 3);
+                    }
                 }
             }
             ang += step;
