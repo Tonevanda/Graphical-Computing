@@ -18,6 +18,7 @@ export class MySphere extends CGFobject {
         this.vertices = [];
         this.indices = [];
         this.normals = [];
+        this.texCoords = [];
 
         var ang = 0;
         var step = 2 * Math.PI / this.slices;
@@ -36,6 +37,7 @@ export class MySphere extends CGFobject {
 
                 this.vertices.push(x, y, z);
                 (this.inverted) ? this.normals.push(-x, -y, -z) : this.normals.push(x, y, z);
+                this.texCoords.push(i / this.slices, j / this.stacks);
 
                 if (i > 0 && j > 0) {
                     var vertices = this.vertices.length / 3;
