@@ -31,9 +31,9 @@ export class MySphere extends CGFobject {
                 var sin_stack = Math.sin(stackStep * j - Math.PI / 2);
                 var cos_stack = Math.cos(stackStep * j - Math.PI / 2);
 
-                var x = cos_ang * cos_stack;
-                var y = sin_ang * cos_stack;
-                var z = sin_stack;
+                var x = sin_ang * cos_stack;
+                var y = -sin_stack;
+                var z = cos_ang * cos_stack;
 
                 this.vertices.push(x, y, z);
                 (this.inverted) ? this.normals.push(-x, -y, -z) : this.normals.push(x, y, z);
@@ -42,11 +42,11 @@ export class MySphere extends CGFobject {
                 if (i > 0 && j > 0) {
                     var vertices = this.vertices.length / 3;
                     if (this.inverted) {
-                        this.indices.push(vertices - 1, vertices - 2, vertices - this.stacks - 3);
-                        this.indices.push(vertices - 1, vertices - this.stacks - 3, vertices - this.stacks - 2);
-                    } else {
                         this.indices.push(vertices - 1, vertices - this.stacks - 3, vertices - 2);
                         this.indices.push(vertices - 1, vertices - this.stacks - 2, vertices - this.stacks - 3);
+                    } else {
+                        this.indices.push(vertices - 1, vertices - 2, vertices - this.stacks - 3);
+                        this.indices.push(vertices - 1, vertices - this.stacks - 3, vertices - this.stacks - 2);
                     }
                 }
             }
