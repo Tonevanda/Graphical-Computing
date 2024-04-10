@@ -6,10 +6,9 @@ import { MyCylinder } from './MyCylinder.js';
  * @param scene - Reference to MyScene object
 */
 export class MyStem extends CGFobject {
-    constructor(scene, radius, height) {
+    constructor(scene, radius) {
         super(scene);
         this.radius = radius;
-        this.height = height;
         this.initBuffers();
     }
     initBuffers() {
@@ -18,7 +17,7 @@ export class MyStem extends CGFobject {
 
     display() {
         this.scene.pushMatrix();
-        this.scene.scale(this.radius, this.height, this.radius);
+        this.scene.scale(this.radius, 1, this.radius);
         this.scene.rotate(-Math.PI / 2.0, 1, 0, 0);
         this.cylinder.display();
         this.scene.popMatrix();
