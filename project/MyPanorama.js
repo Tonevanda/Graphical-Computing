@@ -4,8 +4,6 @@ import { MySphere } from './MySphere.js';
 * MyPanorama
 * @constructor
  * @param scene - Reference to MyScene object
- * @param slices - number of divisions around the Y axis
- * @param stacks - number of divisions along the Y axis
 */
 export class MyPanorama extends CGFobject {
     constructor(scene, texture) {
