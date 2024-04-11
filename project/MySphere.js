@@ -21,22 +21,22 @@ export class MySphere extends CGFobject {
         this.normals = [];
         this.texCoords = [];
 
-        var step = 2 * Math.PI / this.slices;
-        var stackStep = Math.PI / this.stacks;
+        let step = 2 * Math.PI / this.slices;
+        let stackStep = Math.PI / this.stacks;
 
-        for (var i = 0; i <= this.slices; i++) {
-            var ang = step * i;
-            for (var j = 0; j <= this.stacks; j++) {
-                var stackAng = stackStep * (this.stacks - j) - Math.PI / 2;
+        for (let i = 0; i <= this.slices; i++) {
+            let ang = step * i;
+            for (let j = 0; j <= this.stacks; j++) {
+                let stackAng = stackStep * (this.stacks - j) - Math.PI / 2;
 
-                var x = Math.sin(ang) * Math.cos(stackAng);
-                var y = Math.sin(stackAng);
-                var z = Math.cos(ang) * Math.cos(stackAng);
+                let x = Math.sin(ang) * Math.cos(stackAng);
+                let y = Math.sin(stackAng);
+                let z = Math.cos(ang) * Math.cos(stackAng);
 
                 this.vertices.push(x, y, z);
 
                 // normalization
-                var nsize = Math.sqrt(x * x + y * y + z * z);
+                let nsize = Math.sqrt(x * x + y * y + z * z);
                 x /= nsize;
                 y /= nsize;
                 z /= nsize;
@@ -45,7 +45,7 @@ export class MySphere extends CGFobject {
                 this.texCoords.push(i / this.slices, j / this.stacks);
 
                 if (i > 0 && j > 0) {
-                    var vertices = this.vertices.length / 3;
+                    let vertices = this.vertices.length / 3;
                     if (this.inverted) {
                         this.indices.push(vertices - 1, vertices - this.stacks - 3, vertices - 2);
                         this.indices.push(vertices - 1, vertices - this.stacks - 2, vertices - this.stacks - 3);
