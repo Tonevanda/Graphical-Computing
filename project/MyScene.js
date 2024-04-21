@@ -27,15 +27,15 @@ export class MyScene extends CGFscene {
     this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
 
-    this.panoramaTexture = new CGFtexture(this, "images/panorama4.jpg");
-    this.row = 5;
-    this.row = 5;
+    this.panoramaTexture = new CGFtexture(this, "images/panorama.jpg");
+    this.gardenRows = 1;
+    this.gardenColumns = 1;
 
     //Initialize scene objects
     this.axis = new CGFaxis(this);
     this.plane = new MyPlane(this, 30);
     this.panorama = new MyPanorama(this, this.panoramaTexture);
-    this.garden = new MyGarden(this, 1, 1);
+    this.garden = new MyGarden(this, this.gardenRows, this.gardenColumns);
 
     //Objects connected to MyInterface
     this.displayAxis = true;

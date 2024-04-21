@@ -28,7 +28,7 @@ export class MyFlower extends CGFobject {
     }
     initBuffers() {
         this.petal = new MyPetal(this.scene, this.petalRadius, Math.PI / 5);
-        this.stem = new MyStem(this.scene, this.stemRadius, this.stemNum, this.receptacleRadius);
+        this.stem = new MyStem(this.scene, this.stemRadius, this.stemNum, this.receptacleRadius * 2);
         this.stemPos = [];
         this.receptacle = new MyReceptacle(this.scene, this.receptacleRadius);
         this.unionAngle = [];

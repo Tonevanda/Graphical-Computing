@@ -5,11 +5,12 @@ import { CGFobject } from '../lib/CGF.js';
  * @param scene - Reference to MyScene object
  */
 export class MyCylinder extends CGFobject {
-    constructor(scene, slices, stacks) {
+    constructor(scene, slices, stacks, appearance) {
         super(scene);
 
         this.slices = slices;
         this.stacks = stacks;
+        this.appearance = appearance;
 
         this.initBuffers();
     }
@@ -18,6 +19,7 @@ export class MyCylinder extends CGFobject {
         this.vertices = [];
         this.indices = [];
         this.normals = [];
+        this.texCoords = [];
 
         var ang = 0;
         var step = 2 * Math.PI / this.slices;
@@ -50,6 +52,7 @@ export class MyCylinder extends CGFobject {
             for (var j = (1 / this.stacks); j < 1; j += (1 / this.stacks)) {
                 this.vertices.push(cos_ang, sin_ang, j);
                 this.normals.push(...normal);
+                this.texCoords.push(i / this.slices, j / this.stacks);
             }
 
             if (i == 0) continue;
@@ -90,6 +93,11 @@ export class MyCylinder extends CGFobject {
         // reinitialize buffers
         this.initBuffers();
         this.initNormalVizBuffers();
+    }
+
+    display() {
+        this.appearance.apply();
+        super.display();
     }
 }
 

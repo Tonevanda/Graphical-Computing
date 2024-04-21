@@ -1,4 +1,4 @@
-import { CGFobject } from '../lib/CGF.js';
+import { CGFappearance, CGFobject, CGFtexture } from '../lib/CGF.js';
 import { MyCylinder } from './MyCylinder.js';
 import { MyLeaf } from './MyLeaf.js';
 import { MyUtils } from './MyUtils.js';
@@ -16,20 +16,23 @@ export class MyStem extends CGFobject {
         this.initBuffers();
     }
     initBuffers() {
+        this.appearance = new CGFappearance(this.scene);
+        this.appearance.setTexture(new CGFtexture(this.scene, "images/stem.jpeg"));
+        this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+        this.appearance.setAmbient(0.0, 0.0, 0.0, 1.0);
+        this.appearance.setDiffuse(1.0, 1.0, 1.0, 1.0);
+        this.appearance.setSpecular(0.0, 0.0, 0.0, 1.0);
+
         let util = new MyUtils();
-        this.cylinder = new MyCylinder(this.scene, 100, 50);
+        this.cylinder = new MyCylinder(this.scene, 100, 50, this.appearance);
         this.stemHeight = [0.0];
         this.stemRotation = [0.0];
         this.stemPos = [];
         for (let s = 1; s <= this.stemNum; s++) {
-            this.stemHeight[s] = Math.random() * (this.leafHeight * 4 - this.leafHeight * 3 + 1) + this.leafHeight * 3;
+            this.stemHeight[s] = util.getRandomNum(this.leafHeight, this.leafHeight * 2);
             this.stemRotation[s] = util.getRandomNum(0, Math.PI / 8) * ((s % 2 == 0) ? 1 : -1);
         }
-        this.leaf = new MyLeaf(this.scene, this.radius, this.leafHeight);
-        this.leafRotation = [];
-        for (let l = 0; l < this.stemNum - 1; l++) {
-            this.leafRotation[l] = Math.random() * (Math.PI + Math.PI + 1) - Math.PI;
-        }
+        this.leaf = new MyLeaf(this.scene, this.radius / 2, this.leafHeight);
     }
 
     getPos() {
@@ -48,6 +51,14 @@ export class MyStem extends CGFobject {
             this.scene.pushMatrix();
 
             this.scene.translate(this.stemPos[0] + vector[0], this.stemPos[1] + vector[1], this.stemPos[2]);
+
+            if (s != 1) {
+                this.scene.pushMatrix();
+                if (s % 2 != 0) this.scene.rotate(Math.PI, 0, 1, 0);
+                this.scene.rotate(0.2, 0, 0, 1);
+                this.leaf.display();
+                this.scene.popMatrix();
+            }
             this.scene.rotate(this.stemRotation[s], 0, 0, 1);
 
             this.scene.scale(this.radius, this.stemHeight[s], this.radius);
