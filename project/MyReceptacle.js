@@ -17,8 +17,8 @@ export class MyReceptacle extends CGFobject {
         this.appearance = new CGFappearance(this.scene);
         this.appearance.setTexture(new CGFtexture(this.scene, "images/center.jpg"));
         this.appearance.setTextureWrap('REPEAT', 'REPEAT');
-        this.appearance.setAmbient(0.0, 0.0, 0.0, 1.0);
-        this.appearance.setDiffuse(1.0, 1.0, 1.0, 1.0);
+        this.appearance.setAmbient(1.0, 1.0, 0.0, 1.0);
+        this.appearance.setDiffuse(1.0, 1.0, 0.0, 1.0);
         this.appearance.setSpecular(0.0, 0.0, 0.0, 1.0);
     }
 

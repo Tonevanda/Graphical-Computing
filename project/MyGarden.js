@@ -25,9 +25,16 @@ export class MyGarden extends CGFobject {
             this.flowers[i] = new MyFlower(this.scene, petalRadius, petalNum, receptacleRadius, 0.4, -0.4, stemRadius, stemNum)
             //this.flower = new MyFlower(this, 10, 30, 5, 0.4, -0.4, 3, 3);
         }
-
     }
+
+    updateGarden(rows, cols) {
+        this.row = rows;
+        this.col = cols;
+        this.initBuffers();
+    }
+
     display() {
+        this.scene.translate(-this.col / 2 * 30, 0, -this.row / 2 * 30);
         for (let i = 0; i < this.row; i++) {
             this.scene.pushMatrix();
             this.scene.translate(0, 0, i * 30);
