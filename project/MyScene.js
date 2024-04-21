@@ -35,7 +35,7 @@ export class MyScene extends CGFscene {
     this.axis = new CGFaxis(this);
     this.plane = new MyPlane(this, 30);
     this.panorama = new MyPanorama(this, this.panoramaTexture);
-    this.garden = new MyGarden(this, 5, 5);
+    this.garden = new MyGarden(this, 1, 1);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -94,10 +94,10 @@ export class MyScene extends CGFscene {
     if (this.displayAxis) this.axis.display();
 
     // ---- BEGIN Primitive drawing section
-    this.translate(0, 50, 0);
+    //this.translate(0, 50, 0);
     this.panorama.display();
 
-    this.translate(0, -100, 0);
+    //this.translate(0, -100, 0);
     this.pushMatrix();
     this.appearance.apply();
     this.scale(400, 400, 400);

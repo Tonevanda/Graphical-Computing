@@ -18,10 +18,10 @@ export class MyGarden extends CGFobject {
         let util = new MyUtils();
         for (let i = 0; i < this.row * this.col; i++) {
             const petalNum = util.getRandomIntNum(10, 30);
-            const receptacleRadius = util.getRandomNum(1.5, 3);
+            const receptacleRadius = util.getRandomNum(1.5, 4);
             const petalRadius = util.getRandomNum(receptacleRadius * 3 / 2, receptacleRadius * 2);
             const stemRadius = util.getRandomNum(receptacleRadius / 4, receptacleRadius / 3);
-            const stemNum = util.getRandomIntNum(1, 3);
+            const stemNum = util.getRandomIntNum(2, 4);
             this.flowers[i] = new MyFlower(this.scene, petalRadius, petalNum, receptacleRadius, 0.4, -0.4, stemRadius, stemNum)
             //this.flower = new MyFlower(this, 10, 30, 5, 0.4, -0.4, 3, 3);
         }
