@@ -1,4 +1,4 @@
-import {CGFinterface, dat} from '../lib/CGF.js';
+import { CGFinterface, dat } from '../lib/CGF.js';
 
 /**
 * MyInterface
@@ -12,7 +12,7 @@ export class MyInterface extends CGFinterface {
     init(application) {
         // call CGFinterface init
         super.init(application);
-        
+
         // init GUI. For more information on the methods, check:
         // https://github.com/dataarts/dat.gui/blob/master/API.md
         this.gui = new dat.GUI();
@@ -22,6 +22,8 @@ export class MyInterface extends CGFinterface {
 
         //Slider element in GUI
         this.gui.add(this.scene, 'scaleFactor', 0.1, 5).name('Scale Factor');
+        //this.gui.add(this.scene, 'row', 1, 10).name('Rows').onChange(this.scene.updateGardenSize.bind(this.scene));
+        //this.gui.add(this.scene, 'col', 1, 10).name('Columns').onChange(this.scene.updateGardenSize.bind(this.scene));
 
         return true;
     }

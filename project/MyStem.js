@@ -57,7 +57,7 @@ export class MyStem extends CGFobject {
                 this.scene.popMatrix();
                 xAcert = this.stemPos[0] + ((Math.cos(Math.PI / 2 + this.leafAngle) * this.leafHeight + (this.radius - Math.cos(this.leafAngle) * this.radius) + 0.1) * Math.cos(this.leafRotation[s]));
                 yAcert = this.stemPos[1] + (Math.sin(Math.PI / 2 + this.leafAngle) * this.leafHeight) - (Math.sin(this.leafAngle) * this.radius) * 2;
-                zAcert = this.stemPos[2] - ((Math.cos(Math.PI / 2 + this.leafAngle) * this.leafHeight + (this.radius - Math.cos(this.leafAngle) * this.radius) + 0.1) * Math.sin(this.leafRotation[s])); //- Math.sin(this.leafRotation[s]);
+                zAcert = this.stemPos[2] - ((Math.cos(Math.PI / 2 + this.leafAngle) * this.leafHeight + (this.radius - Math.cos(this.leafAngle) * this.radius) + 0.1) * Math.sin(this.leafRotation[s]));
                 this.stemPos = [xAcert, yAcert, zAcert];
             }
         }
