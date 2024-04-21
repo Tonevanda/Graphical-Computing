@@ -1,0 +1,89 @@
+import { CGFappearance, CGFobject } from '../lib/CGF.js';
+/**
+* MyRock
+* @constructor
+ * @param scene - Reference to MyScene object
+ * @param slices - number of divisions around the Y axis
+ * @param stacks - number of divisions along the Y axis
+*/
+export class MyRock extends CGFobject {
+    constructor(scene, slices, stacks, texture) {
+        super(scene);
+        this.slices = slices;
+        this.stacks = stacks;
+        this.texture = texture;
+        this.initBuffers();
+    }
+    initBuffers() {
+        this.appearance = new CGFappearance(this.scene);
+        this.appearance.setTexture(this.texture);
+        this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+        this.appearance.setAmbient(0.2, 0.2, 0.2, 1.0);
+        this.appearance.setDiffuse(0.8, 0.8, 0.8, 1.0);
+        this.appearance.setSpecular(0.3, 0.3, 0.3, 1.0);
+
+        this.vertices = [];
+        this.indices = [];
+        this.normals = [];
+        this.texCoords = [];
+        let firstVertices = [];
+
+        let step = 2 * Math.PI / this.slices;
+        let stackStep = Math.PI / this.stacks;
+
+        for (let i = 0; i <= this.slices; i++) {
+            let ang = step * i;
+            for (let j = 0; j <= this.stacks; j++) {
+                let stackAng = stackStep * (this.stacks - j) - Math.PI / 2;
+
+                let x = Math.sin(ang) * Math.cos(stackAng);
+                let y = Math.sin(stackAng);
+                let z = Math.cos(ang) * Math.cos(stackAng);
+                
+                
+                // normalization
+                let nsize = Math.sqrt(x * x + y * y + z * z);
+                x /= nsize;
+                y /= nsize;
+                z /= nsize;
+                
+                let offset = Math.random() * 0.1;
+                x += offset * x;
+                y += offset * y;
+                z += offset * z;
+                
+                if(i === 0){
+                    firstVertices.push(x, y, z);
+                }
+                this.vertices.push(x, y, z);
+                this.normals.push(x, y, z);
+
+                this.texCoords.push(i / this.slices, j / this.stacks);
+
+                if (i > 0 && j > 0) {
+                    let vertices = this.vertices.length / 3;
+                    if(i === (this.slices + 1)){
+                        this.indices.push(vertices - 1, firstVertices[j - 1], firstVertices[j]);
+                        this.indices.push(vertices - 1, vertices - 2, firstVertices[j - 1]);
+                    } else {
+                        this.indices.push(vertices - 1, vertices - 2, vertices - this.stacks - 3);
+                        this.indices.push(vertices - 1, vertices - this.stacks - 3, vertices - this.stacks - 2);
+                    }
+                }
+            }
+        }
+
+        this.primitiveType = this.scene.gl.TRIANGLES;
+
+        this.initGLBuffers();
+    }
+
+    display() {
+        this.scene.pushMatrix();
+        this.appearance.apply();
+        this.scene.scale(2.0, 2.0, 2.0);
+        super.display();
+        this.scene.popMatrix();
+    }
+
+}

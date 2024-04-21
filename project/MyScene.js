@@ -2,6 +2,8 @@ import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } fr
 import { MyGarden } from "./MyGarden.js";
 import { MyPanorama } from "./MyPanorama.js";
 import { MyPlane } from "./MyPlane.js";
+import { MyRock } from "./MyRock.js";
+import { MyRockSet } from "./MyRockSet.js";
 
 /**
  * MyScene
@@ -28,6 +30,7 @@ export class MyScene extends CGFscene {
     this.gl.depthFunc(this.gl.LEQUAL);
 
     this.panoramaTexture = new CGFtexture(this, "images/panorama.jpg");
+    this.rockTexture = new CGFtexture(this, "images/rock.jpg");
     this.gardenRows = 1;
     this.gardenColumns = 1;
 
@@ -36,6 +39,8 @@ export class MyScene extends CGFscene {
     this.plane = new MyPlane(this, 30);
     this.panorama = new MyPanorama(this, this.panoramaTexture);
     this.garden = new MyGarden(this, this.gardenRows, this.gardenColumns);
+    //this.rock = new MyRock(this, 40, 40, this.rockTexture);
+    this.rockSet = new MyRockSet(this, 5, 5, this.rockTexture);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -105,7 +110,10 @@ export class MyScene extends CGFscene {
     this.plane.display();
     this.popMatrix();
 
-    this.garden.display();
+    this.panorama.display();
+    //this.rock.display();
+    this.rockSet.display();
+    //this.garden.display();
 
     // ---- END Primitive drawing section
   }
