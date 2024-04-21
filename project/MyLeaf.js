@@ -1,4 +1,4 @@
-import { CGFobject } from '../lib/CGF.js';
+import { CGFappearance, CGFobject, CGFtexture } from '../lib/CGF.js';
 import { MyCylinder } from './MyCylinder.js';
 import { MyPetal } from './MyPetal.js';
 /**
@@ -17,9 +17,18 @@ export class MyLeaf extends CGFobject {
     initBuffers() {
         this.petal = new MyPetal(this.scene, this.radius * 3, 0.5);
         this.cylinder = new MyCylinder(this.scene, 100, 50);
+
+        this.appearance = new CGFappearance(this.scene);
+        this.appearance.setTexture(new CGFtexture(this.scene, "images/leaf.jpg"));
+        this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+        this.appearance.setAmbient(0.0, 0.0, 0.0, 1.0);
+        this.appearance.setDiffuse(1.0, 1.0, 1.0, 1.0);
+        this.appearance.setSpecular(0.0, 0.0, 0.0, 1.0);
     }
 
     display() {
+        this.appearance.apply();
+
         this.scene.pushMatrix();
         this.scene.rotate(this.angle, 0, 0, 1);
         this.scene.scale(this.radius, this.height, this.radius);

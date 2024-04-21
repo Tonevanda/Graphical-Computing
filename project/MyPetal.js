@@ -1,4 +1,4 @@
-import { CGFobject } from '../lib/CGF.js';
+import { CGFappearance, CGFobject, CGFtexture } from '../lib/CGF.js';
 import { MyTriangle } from './MyTriangle.js';
 /**
 * MyPetal
@@ -14,9 +14,18 @@ export class MyPetal extends CGFobject {
     }
     initBuffers() {
         this.triangle = new MyTriangle(this.scene);
+
+        this.appearance = new CGFappearance(this.scene);
+        this.appearance.setTexture(new CGFtexture(this.scene, "images/petal.jpg"));
+        this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+        this.appearance.setAmbient(0.0, 0.0, 0.0, 1.0);
+        this.appearance.setDiffuse(1.0, 1.0, 1.0, 1.0);
+        this.appearance.setSpecular(0.0, 0.0, 0.0, 1.0);
     }
 
     display() {
+        this.appearance.apply();
+
         this.scene.pushMatrix();
         this.scene.translate(this.radius, 0, 0);
         this.scene.rotate(-this.angle, 0, 0, 1);
