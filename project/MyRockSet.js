@@ -29,6 +29,8 @@ export class MyRockSet extends CGFobject {
     }
 
     display() {
+        this.scene.pushMatrix();
+        this.scene.translate(0, 0.5, 0)
         for (let i = 0; i < this.row; i++) {
             this.scene.pushMatrix();
             this.scene.translate(0, 0, i * 5);
@@ -37,7 +39,7 @@ export class MyRockSet extends CGFobject {
                 this.scene.translate(j * 5, 0, 0);
 
                 this.scene.pushMatrix();
-                this.scene.scale(this.scale[i * this.col + j], this.scale[i * this.col + j], this.scale[i * this.col + j]);
+                this.scene.scale(this.scale[i * this.col + j], this.scale[i * this.col + j] / 2.5, this.scale[i * this.col + j]);
                 this.rocks[i * this.col + j].display();
                 this.scene.popMatrix();
 
@@ -45,5 +47,6 @@ export class MyRockSet extends CGFobject {
             }
             this.scene.popMatrix();
         }
+        this.scene.popMatrix();
     }
 }
