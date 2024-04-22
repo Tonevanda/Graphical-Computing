@@ -73,7 +73,6 @@ export class MyRock extends CGFobject {
 
     display() {
         this.scene.pushMatrix();
-        this.scene.scale(2.0, 2.0, 2.0);
         super.display();
         this.scene.popMatrix();
     }
