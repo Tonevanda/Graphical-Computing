@@ -7,21 +7,13 @@ import { CGFappearance, CGFobject } from '../lib/CGF.js';
  * @param stacks - number of divisions along the Y axis
 */
 export class MyRock extends CGFobject {
-    constructor(scene, slices, stacks, texture) {
+    constructor(scene, slices, stacks) {
         super(scene);
         this.slices = slices;
         this.stacks = stacks;
-        this.texture = texture;
         this.initBuffers();
     }
     initBuffers() {
-        this.appearance = new CGFappearance(this.scene);
-        this.appearance.setTexture(this.texture);
-        this.appearance.setTextureWrap('REPEAT', 'REPEAT');
-        this.appearance.setAmbient(0.2, 0.2, 0.2, 1.0);
-        this.appearance.setDiffuse(0.8, 0.8, 0.8, 1.0);
-        this.appearance.setSpecular(0.3, 0.3, 0.3, 1.0);
-
         this.vertices = [];
         this.indices = [];
         this.normals = [];
@@ -81,7 +73,6 @@ export class MyRock extends CGFobject {
 
     display() {
         this.scene.pushMatrix();
-        this.appearance.apply();
         this.scene.scale(2.0, 2.0, 2.0);
         super.display();
         this.scene.popMatrix();
