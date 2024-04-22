@@ -7,21 +7,13 @@ import { CGFappearance, CGFobject } from '../lib/CGF.js';
  * @param stacks - number of divisions along the Y axis
 */
 export class MyRock extends CGFobject {
-    constructor(scene, slices, stacks, texture) {
+    constructor(scene, slices, stacks) {
         super(scene);
         this.slices = slices;
         this.stacks = stacks;
-        this.texture = texture;
         this.initBuffers();
     }
     initBuffers() {
-        this.appearance = new CGFappearance(this.scene);
-        this.appearance.setTexture(this.texture);
-        this.appearance.setTextureWrap('REPEAT', 'REPEAT');
-        this.appearance.setAmbient(0.2, 0.2, 0.2, 1.0);
-        this.appearance.setDiffuse(0.8, 0.8, 0.8, 1.0);
-        this.appearance.setSpecular(0.3, 0.3, 0.3, 1.0);
-
         this.vertices = [];
         this.indices = [];
         this.normals = [];
@@ -53,22 +45,23 @@ export class MyRock extends CGFobject {
                 z += offset * z;
                 
                 if(i === 0){
-                    firstVertices.push(x, y, z);
+                    firstVertices.push([x, y, z]);
                 }
-                this.vertices.push(x, y, z);
+
+                if(i === this.slices){
+                    this.vertices.push(firstVertices[j][0], firstVertices[j][1], firstVertices[j][2]);
+                }
+                else{
+                    this.vertices.push(x, y, z);
+                }
                 this.normals.push(x, y, z);
 
                 this.texCoords.push(i / this.slices, j / this.stacks);
 
                 if (i > 0 && j > 0) {
                     let vertices = this.vertices.length / 3;
-                    if(i === (this.slices + 1)){
-                        this.indices.push(vertices - 1, firstVertices[j - 1], firstVertices[j]);
-                        this.indices.push(vertices - 1, vertices - 2, firstVertices[j - 1]);
-                    } else {
-                        this.indices.push(vertices - 1, vertices - 2, vertices - this.stacks - 3);
-                        this.indices.push(vertices - 1, vertices - this.stacks - 3, vertices - this.stacks - 2);
-                    }
+                    this.indices.push(vertices - 1, vertices - 2, vertices - this.stacks - 3);
+                    this.indices.push(vertices - 1, vertices - this.stacks - 3, vertices - this.stacks - 2);
                 }
             }
         }
@@ -80,8 +73,6 @@ export class MyRock extends CGFobject {
 
     display() {
         this.scene.pushMatrix();
-        this.appearance.apply();
-        this.scene.scale(2.0, 2.0, 2.0);
         super.display();
         this.scene.popMatrix();
     }

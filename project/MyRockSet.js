@@ -1,4 +1,4 @@
-import { CGFobject } from '../lib/CGF.js';
+import { CGFobject, CGFappearance } from '../lib/CGF.js';
 import { MyRock } from './MyRock.js';
 import { MyUtils } from './MyUtils.js'
 /**
@@ -16,34 +16,50 @@ export class MyRockSet extends CGFobject {
     }
     
     initBuffers() {
+        this.appearance = new CGFappearance(this.scene);
+        this.appearance.setTexture(this.rockTexture);
+        this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+        this.appearance.setAmbient(0.2, 0.2, 0.2, 1.0);
+        this.appearance.setDiffuse(0.8, 0.8, 0.8, 1.0);
+        this.appearance.setSpecular(0.3, 0.3, 0.3, 1.0);
+
         this.rocks = [];
-        this.scale = []
+        this.yScale = [];
+        this.xScale = [];
+        this.zScale = [];
         let util = new MyUtils();
         for (let i = 0; i < this.row * this.col; i++) {
             const stacks = util.getRandomIntNum(10, 20);
             const slices = util.getRandomIntNum(40, 80);
             // Creates a new rock for each position in the set and randomizes its scale
-            this.rocks[i] = new MyRock(this.scene, stacks, slices, this.rockTexture);
-            this.scale[i] = util.getRandomNum(0.5, 1.5);
+            this.rocks[i] = new MyRock(this.scene, stacks, slices);
+            this.yScale[i] = util.getRandomNum(4.0, 6.0);
+            this.xScale[i] = util.getRandomNum(6.0, 12.0);
+            this.zScale[i] = util.getRandomNum(6.0, 12.0);
         }
     }
 
     display() {
-        for (let i = 0; i < this.row; i++) {
-            this.scene.pushMatrix();
-            this.scene.translate(0, 0, i * 5);
-            for (let j = 0; j < this.col; j++) {
-                this.scene.pushMatrix();
-                this.scene.translate(j * 5, 0, 0);
-
-                this.scene.pushMatrix();
-                this.scene.scale(this.scale[i * this.col + j], this.scale[i * this.col + j], this.scale[i * this.col + j]);
-                this.rocks[i * this.col + j].display();
-                this.scene.popMatrix();
-
-                this.scene.popMatrix();
+        this.scene.pushMatrix();
+        this.appearance.apply();
+        this.scene.translate(0, 5.0, 0);
+    
+        let height = 0;
+        for (let i = this.row; i > 0; i--) {
+            for (let j = 0; j < i; j++) {
+                for (let k = 0; k < i; k++) {
+                    this.scene.pushMatrix();
+                    this.scene.translate(j * 15 - (i - 1) * 7.5, height, k * 15 - (i - 1) * 7.5);
+    
+                    this.scene.scale(this.xScale[(this.row - i) * this.row + j], this.yScale[(this.row - i) * this.row + j], this.zScale[(this.row - i) * this.row + j]);
+                    this.rocks[(this.row - i) * this.row + j].display();
+    
+                    this.scene.popMatrix();
+                }
             }
-            this.scene.popMatrix();
+            height += 8.0;
         }
+    
+        this.scene.popMatrix();
     }
 }
