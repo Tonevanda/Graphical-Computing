@@ -8,23 +8,18 @@ import { MyUtils } from './MyUtils.js';
  * @param scene - Reference to MyScene object
 */
 export class MyStem extends CGFobject {
-    constructor(scene, radius, stemNum, leafHeight) {
+    constructor(scene, triangle, cylinder, radius, stemNum, leafHeight, stemAppearance, leafAppearance) {
         super(scene);
+        this.cylinder = cylinder;
         this.radius = radius;
         this.stemNum = stemNum;
         this.leafHeight = leafHeight;
-        this.initBuffers();
+        this.stemAppearance = stemAppearance;
+        this.leafAppearance = leafAppearance;
+        this.initBuffers(triangle);
     }
-    initBuffers() {
-        this.appearance = new CGFappearance(this.scene);
-        this.appearance.setTexture(new CGFtexture(this.scene, "images/stem.jpeg"));
-        this.appearance.setTextureWrap('REPEAT', 'REPEAT');
-        this.appearance.setAmbient(0.0, 0.0, 0.0, 1.0);
-        this.appearance.setDiffuse(1.0, 1.0, 1.0, 1.0);
-        this.appearance.setSpecular(0.0, 0.0, 0.0, 1.0);
-
+    initBuffers(triangle) {
         let util = new MyUtils();
-        this.cylinder = new MyCylinder(this.scene, 100, 50, this.appearance);
         this.stemHeight = [0.0];
         this.stemRotation = [0.0];
         this.stemPos = [];
@@ -32,7 +27,7 @@ export class MyStem extends CGFobject {
             this.stemHeight[s] = util.getRandomNum(this.leafHeight, this.leafHeight * 2);
             this.stemRotation[s] = util.getRandomNum(0, Math.PI / 8) * ((s % 2 == 0) ? 1 : -1);
         }
-        this.leaf = new MyLeaf(this.scene, this.radius / 2, this.leafHeight);
+        this.leaf = new MyLeaf(this.scene, triangle, this.cylinder, this.radius / 2, this.leafHeight);
     }
 
     getPos() {
@@ -56,6 +51,7 @@ export class MyStem extends CGFobject {
                 this.scene.pushMatrix();
                 if (s % 2 != 0) this.scene.rotate(Math.PI, 0, 1, 0);
                 this.scene.rotate(0.2, 0, 0, 1);
+                this.leafAppearance.apply();
                 this.leaf.display();
                 this.scene.popMatrix();
             }
@@ -63,6 +59,7 @@ export class MyStem extends CGFobject {
 
             this.scene.scale(this.radius, this.stemHeight[s], this.radius);
             this.scene.rotate(-Math.PI / 2.0, 1, 0, 0);
+            this.stemAppearance.apply();
             this.cylinder.display();
 
             this.scene.popMatrix();

@@ -5,12 +5,10 @@ import { CGFobject } from '../lib/CGF.js';
  * @param scene - Reference to MyScene object
  */
 export class MyCylinder extends CGFobject {
-    constructor(scene, slices, stacks, appearance) {
+    constructor(scene, slices, stacks) {
         super(scene);
-
         this.slices = slices;
         this.stacks = stacks;
-        this.appearance = appearance;
 
         this.initBuffers();
     }
@@ -93,11 +91,6 @@ export class MyCylinder extends CGFobject {
         // reinitialize buffers
         this.initBuffers();
         this.initNormalVizBuffers();
-    }
-
-    display() {
-        this.appearance.apply();
-        super.display();
     }
 }
 

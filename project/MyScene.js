@@ -1,9 +1,12 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
+import { MyCylinder } from "./MyCylinder.js";
 import { MyGarden } from "./MyGarden.js";
 import { MyPanorama } from "./MyPanorama.js";
 import { MyPlane } from "./MyPlane.js";
 import { MyRock } from "./MyRock.js";
 import { MyRockSet } from "./MyRockSet.js";
+import { MySphere } from "./MySphere.js";
+import { MyTriangle } from "./MyTriangle.js";
 
 /**
  * MyScene
@@ -34,11 +37,16 @@ export class MyScene extends CGFscene {
     this.gardenRows = 1;
     this.gardenColumns = 1;
 
+    //Initialize primitive objects
+    this.triangle = new MyTriangle(this);
+    this.sphere = new MySphere(this, 100, 100);
+    this.cylinder = new MyCylinder(this, 100, 50);
+
     //Initialize scene objects
     this.axis = new CGFaxis(this);
     this.plane = new MyPlane(this, 30);
     this.panorama = new MyPanorama(this, this.panoramaTexture);
-    this.garden = new MyGarden(this, this.gardenRows, this.gardenColumns);
+    this.garden = new MyGarden(this, this.gardenRows, this.gardenColumns, this.triangle, this.sphere, this.cylinder);
     //this.rock = new MyRock(this, 40, 40, this.rockTexture);
     this.rockSet = new MyRockSet(this, 5, 5, this.rockTexture);
 
@@ -99,10 +107,9 @@ export class MyScene extends CGFscene {
     if (this.displayAxis) this.axis.display();
 
     // ---- BEGIN Primitive drawing section
-    //this.translate(0, 50, 0);
-    this.panorama.display();
 
-    //this.translate(0, -100, 0);
+    this.panorama.display();
+    this.translate(0, -50, 0);
     this.pushMatrix();
     this.appearance.apply();
     this.scale(400, 400, 400);
@@ -110,10 +117,9 @@ export class MyScene extends CGFscene {
     this.plane.display();
     this.popMatrix();
 
-    this.panorama.display();
     //this.rock.display();
-    this.rockSet.display();
-    //this.garden.display();
+    //this.rockSet.display();
+    this.garden.display();
 
     // ---- END Primitive drawing section
   }
