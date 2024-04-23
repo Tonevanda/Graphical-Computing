@@ -46,7 +46,6 @@ export class MyScene extends CGFscene {
     this.plane = new MyPlane(this, 30);
     this.panorama = new MyPanorama(this, this.panoramaTexture);
     this.garden = new MyGarden(this, this.gardenRows, this.gardenColumns, this.triangle, this.sphere, this.cylinder);
-    //this.rock = new MyRock(this, 40, 40, this.rockTexture);
     this.rockSet = new MyRockSet(this, 5, 5, this.rockTexture);
 
     //Objects connected to MyInterface
@@ -140,7 +139,6 @@ export class MyScene extends CGFscene {
     this.rotate(-Math.PI / 2.0, 1, 0, 0);
     this.plane.display();
     this.popMatrix();
-    //this.rock.display();
     //this.rockSet.display();
     this.garden.display();
     
