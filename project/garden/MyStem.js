@@ -1,7 +1,7 @@
-import { CGFappearance, CGFobject, CGFtexture } from '../lib/CGF.js';
-import { MyCylinder } from './MyCylinder.js';
+import { CGFappearance, CGFobject, CGFtexture } from '../../lib/CGF.js';
+import { MyCylinder } from '../shapes/MyCylinder.js';
 import { MyLeaf } from './MyLeaf.js';
-import { MyUtils } from './MyUtils.js';
+import { MyUtils } from '../MyUtils.js';
 /**
 * MyStem
 * @constructor

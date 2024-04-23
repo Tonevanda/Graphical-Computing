@@ -1,6 +1,6 @@
-import { CGFappearance, CGFobject, CGFtexture } from '../lib/CGF.js';
+import { CGFappearance, CGFobject, CGFtexture } from '../../lib/CGF.js';
 import { MyFlower } from './MyFlower.js';
-import { MyUtils } from './MyUtils.js'
+import { MyUtils } from '../MyUtils.js'
 /**
 * MyGarden
 * @constructor

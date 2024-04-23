@@ -1,8 +1,8 @@
-import { CGFappearance, CGFobject, CGFtexture } from '../lib/CGF.js';
+import { CGFappearance, CGFobject, CGFtexture } from '../../lib/CGF.js';
 import { MyPetal } from './MyPetal.js';
 import { MyReceptacle } from './MyReceptacle.js';
 import { MyStem } from './MyStem.js';
-import { MyUtils } from './MyUtils.js';
+import { MyUtils } from '../MyUtils.js';
 /**
 * MyFlower
 * @constructor

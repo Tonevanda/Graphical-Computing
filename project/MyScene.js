@@ -1,12 +1,11 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
-import { MyCylinder } from "./MyCylinder.js";
-import { MyGarden } from "./MyGarden.js";
+import { MyCylinder } from "./shapes/MyCylinder.js";
+import { MyGarden } from "./garden/MyGarden.js";
 import { MyPanorama } from "./MyPanorama.js";
-import { MyPlane } from "./MyPlane.js";
-import { MyRock } from "./MyRock.js";
-import { MyRockSet } from "./MyRockSet.js";
-import { MySphere } from "./MySphere.js";
-import { MyTriangle } from "./MyTriangle.js";
+import { MyPlane } from "./shapes/MyPlane.js";
+import { MyRockSet } from "./rocks/MyRockSet.js";
+import { MySphere } from "./shapes/MySphere.js";
+import { MyTriangle } from "./shapes/MyTriangle.js";
 
 /**
  * MyScene

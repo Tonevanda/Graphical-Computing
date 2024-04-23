@@ -1,6 +1,6 @@
-import { CGFobject, CGFappearance } from '../lib/CGF.js';
+import { CGFobject, CGFappearance } from '../../lib/CGF.js';
 import { MyRock } from './MyRock.js';
-import { MyUtils } from './MyUtils.js'
+import { MyUtils } from '../MyUtils.js'
 /**
 * MyRockSet
 * @constructor
@@ -14,7 +14,7 @@ export class MyRockSet extends CGFobject {
         this.rockTexture = rockTexture;
         this.initBuffers();
     }
-    
+
     initBuffers() {
         this.appearance = new CGFappearance(this.scene);
         this.appearance.setTexture(this.rockTexture);
@@ -43,23 +43,23 @@ export class MyRockSet extends CGFobject {
         this.scene.pushMatrix();
         this.appearance.apply();
         this.scene.translate(0, 5.0, 0);
-    
+
         let height = 0;
         for (let i = this.row; i > 0; i--) {
             for (let j = 0; j < i; j++) {
                 for (let k = 0; k < i; k++) {
                     this.scene.pushMatrix();
                     this.scene.translate(j * 15 - (i - 1) * 7.5, height, k * 15 - (i - 1) * 7.5);
-    
+
                     this.scene.scale(this.xScale[(this.row - i) * this.row + j], this.yScale[(this.row - i) * this.row + j], this.zScale[(this.row - i) * this.row + j]);
                     this.rocks[(this.row - i) * this.row + j].display();
-    
+
                     this.scene.popMatrix();
                 }
             }
             height += 8.0;
         }
-    
+
         this.scene.popMatrix();
     }
 }

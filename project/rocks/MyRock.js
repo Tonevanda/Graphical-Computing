@@ -1,4 +1,4 @@
-import { CGFappearance, CGFobject } from '../lib/CGF.js';
+import { CGFappearance, CGFobject } from '../../lib/CGF.js';
 /**
 * MyRock
 * @constructor
@@ -31,27 +31,27 @@ export class MyRock extends CGFobject {
                 let x = Math.sin(ang) * Math.cos(stackAng);
                 let y = Math.sin(stackAng);
                 let z = Math.cos(ang) * Math.cos(stackAng);
-                
-                
+
+
                 // normalization
                 let nsize = Math.sqrt(x * x + y * y + z * z);
                 x /= nsize;
                 y /= nsize;
                 z /= nsize;
-                
+
                 let offset = Math.random() * 0.1;
                 x += offset * x;
                 y += offset * y;
                 z += offset * z;
-                
-                if(i === 0){
+
+                if (i === 0) {
                     firstVertices.push([x, y, z]);
                 }
 
-                if(i === this.slices){
+                if (i === this.slices) {
                     this.vertices.push(firstVertices[j][0], firstVertices[j][1], firstVertices[j][2]);
                 }
-                else{
+                else {
                     this.vertices.push(x, y, z);
                 }
                 this.normals.push(x, y, z);
