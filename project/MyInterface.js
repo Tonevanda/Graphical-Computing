@@ -9,6 +9,26 @@ export class MyInterface extends CGFinterface {
         super();
     }
 
+    initKeys(){
+        this.scene.gui = this;
+        this.processKeyboard = function () { };
+        this.activeKeys = {};
+    }
+
+    // For when the user presses a key
+    processKeyDown(event) {
+        this.activeKeys[event.code] = true;
+    }
+
+    // For when the user releases a key
+    processKeyUp(event) {
+        this.activeKeys[event.code] = false;
+    }
+
+    isKeyPressed(keyCode) {
+        return this.activeKeys[keyCode] || false;
+    }
+
     init(application) {
         // call CGFinterface init
         super.init(application);
@@ -29,6 +49,7 @@ export class MyInterface extends CGFinterface {
             this.scene.garden.updateGarden(this.scene.gardenRows, value);
         }.bind(this));
 
+        this.initKeys();
         return true;
     }
 }

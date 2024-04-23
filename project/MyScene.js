@@ -60,6 +60,10 @@ export class MyScene extends CGFscene {
     this.appearance.setTexture(this.texture);
     this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
+    // set the scene update period 
+		// (to invoke the update() method every 50ms or as close as possible to that )
+		this.setUpdatePeriod(50);
+
   }
 
   initLights() {
@@ -85,12 +89,34 @@ export class MyScene extends CGFscene {
     this.setSpecular(0.2, 0.4, 0.8, 1.0);
     this.setShininess(10.0);
   }
-  /*
-    updateGardenSize() {
-      this.row = 
-  
-    }
-  */
+ 
+  checkKeys() { 
+    var text="Keys pressed: ";
+    var keysPressed=false;
+    if (this.gui.isKeyPressed("KeyW")) {
+      text += " W ";
+      keysPressed=true;
+      }
+      if (this.gui.isKeyPressed("KeyS")) {
+        text += " S ";
+        keysPressed=true;
+      }
+      if (this.gui.isKeyPressed("KeyA")) {
+        text += " A ";
+        keysPressed=true;
+      }
+      if (this.gui.isKeyPressed("KeyD")) {
+        text += " D ";
+        keysPressed=true;
+      }
+      if (keysPressed)
+      console.log(text);
+  }
+
+  update(t) {
+    this.checkKeys();
+  }
+
   display() {
     // ---- BEGIN Background, camera and axis setup
     // Clear image and depth buffer everytime we update the scene
@@ -101,12 +127,11 @@ export class MyScene extends CGFscene {
     this.loadIdentity();
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();
-
+  
     // Draw axis
     if (this.displayAxis) this.axis.display();
-
+    
     // ---- BEGIN Primitive drawing section
-
     this.panorama.display();
     this.translate(0, -50, 0);
     this.pushMatrix();
@@ -115,11 +140,12 @@ export class MyScene extends CGFscene {
     this.rotate(-Math.PI / 2.0, 1, 0, 0);
     this.plane.display();
     this.popMatrix();
-
     //this.rock.display();
     //this.rockSet.display();
     this.garden.display();
-
+    
     // ---- END Primitive drawing section
   }
+
+
 }
