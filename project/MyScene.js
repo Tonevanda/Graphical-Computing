@@ -47,7 +47,6 @@ export class MyScene extends CGFscene {
     this.plane = new MyPlane(this, 30);
     this.panorama = new MyPanorama(this, this.panoramaTexture);
     this.garden = new MyGarden(this, this.gardenRows, this.gardenColumns, this.triangle, this.sphere, this.cylinder);
-    //this.rock = new MyRock(this, 40, 40, this.rockTexture);
     this.rockSet = new MyRockSet(this, 5, 5, this.rockTexture);
     this.bee = new MyBee(this, this.triangle, this.sphere, this.cylinder);
 
@@ -61,6 +60,10 @@ export class MyScene extends CGFscene {
     this.appearance = new CGFappearance(this);
     this.appearance.setTexture(this.texture);
     this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+
+    // set the scene update period 
+    // (to invoke the update() method every 50ms or as close as possible to that )
+    this.setUpdatePeriod(50);
 
   }
 
@@ -87,12 +90,34 @@ export class MyScene extends CGFscene {
     this.setSpecular(0.2, 0.4, 0.8, 1.0);
     this.setShininess(10.0);
   }
-  /*
-    updateGardenSize() {
-      this.row = 
-  
+
+  checkKeys() {
+    var text = "Keys pressed: ";
+    var keysPressed = false;
+    if (this.gui.isKeyPressed("KeyW")) {
+      text += " W ";
+      keysPressed = true;
     }
-  */
+    if (this.gui.isKeyPressed("KeyS")) {
+      text += " S ";
+      keysPressed = true;
+    }
+    if (this.gui.isKeyPressed("KeyA")) {
+      text += " A ";
+      keysPressed = true;
+    }
+    if (this.gui.isKeyPressed("KeyD")) {
+      text += " D ";
+      keysPressed = true;
+    }
+    if (keysPressed)
+      console.log(text);
+  }
+
+  update(t) {
+    this.checkKeys();
+  }
+
   display() {
     // ---- BEGIN Background, camera and axis setup
     // Clear image and depth buffer everytime we update the scene
@@ -108,7 +133,6 @@ export class MyScene extends CGFscene {
     if (this.displayAxis) this.axis.display();
 
     // ---- BEGIN Primitive drawing section
-
     this.panorama.display();
 
     this.translate(0, -50, 0);
@@ -118,8 +142,6 @@ export class MyScene extends CGFscene {
     this.rotate(-Math.PI / 2.0, 1, 0, 0);
     this.plane.display();
     this.popMatrix();
-
-    //this.rock.display();
     //this.rockSet.display();
     this.garden.display();
 
@@ -128,4 +150,6 @@ export class MyScene extends CGFscene {
 
     // ---- END Primitive drawing section
   }
+
+
 }
