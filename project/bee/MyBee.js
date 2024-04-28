@@ -56,7 +56,7 @@ export class MyBee extends CGFobject {
         this.backLeg = new MyLeg(this.scene, this.cylinder, 3, 0.08, [0.0, 0.6, 1, 0.3], [0.0, -0.2, 0.8, -0.2]);
     }
 
-    display() {
+    display(time) {
         // Abdomen
         this.abdomenAppearance.apply();
         this.scene.pushMatrix();
@@ -179,14 +179,16 @@ export class MyBee extends CGFobject {
         // Left Wing
         this.wingAppearance.apply();
         this.scene.pushMatrix();
-        this.scene.translate(-0.5, 0.5, 2);
+        this.scene.translate(-0.5, 0.5, 0.85);
+        this.scene.rotate(Math.sin(time * 6 * Math.PI) / 2 - 0.5, 1, 0, 0);
         this.wing.display();
         this.scene.popMatrix();
 
         // Right Wing
         this.wingAppearance.apply();
         this.scene.pushMatrix();
-        this.scene.translate(-0.5, 0.5, -2);
+        this.scene.translate(-0.5, 0.5, -0.85);
+        this.scene.rotate(-(Math.sin(time * 6 * Math.PI) / 2 - 0.5), 1, 0, 0);
         this.scene.rotate(Math.PI, 1, 0, 0);
         this.wing.display();
         this.scene.popMatrix();

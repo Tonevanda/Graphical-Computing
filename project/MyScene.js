@@ -36,6 +36,7 @@ export class MyScene extends CGFscene {
     this.rockTexture = new CGFtexture(this, "images/rock.jpg");
     this.gardenRows = 1;
     this.gardenColumns = 1;
+    this.time = 0;
 
     //Initialize primitive objects
     this.triangle = new MyTriangle(this);
@@ -145,8 +146,12 @@ export class MyScene extends CGFscene {
     //this.rockSet.display();
     this.garden.display();
 
-    this.translate(0, 50, 0);
-    this.bee.display();
+    this.translate(0, 3, 0);
+
+    this.time += 1 / 60;
+    let newY = Math.sin(this.time * 2 * Math.PI);
+    this.translate(0, newY, 0);
+    this.bee.display(this.time);
 
     // ---- END Primitive drawing section
   }
