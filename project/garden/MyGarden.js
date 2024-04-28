@@ -66,6 +66,7 @@ export class MyGarden extends CGFobject {
     }
 
     display() {
+        this.scene.pushMatrix();
         this.scene.translate(-this.col / 2 * 30, 0, -this.row / 2 * 30);
         for (let i = 0; i < this.row; i++) {
             this.scene.pushMatrix();
@@ -78,5 +79,6 @@ export class MyGarden extends CGFobject {
             }
             this.scene.popMatrix();
         }
+        this.scene.popMatrix();
     }
 }

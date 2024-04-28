@@ -6,6 +6,7 @@ import { MyPlane } from "./shapes/MyPlane.js";
 import { MyRockSet } from "./rocks/MyRockSet.js";
 import { MySphere } from "./shapes/MySphere.js";
 import { MyTriangle } from "./shapes/MyTriangle.js";
+import { MyBee } from "./bee/MyBee.js";
 
 /**
  * MyScene
@@ -48,6 +49,7 @@ export class MyScene extends CGFscene {
     this.garden = new MyGarden(this, this.gardenRows, this.gardenColumns, this.triangle, this.sphere, this.cylinder);
     //this.rock = new MyRock(this, 40, 40, this.rockTexture);
     this.rockSet = new MyRockSet(this, 5, 5, this.rockTexture);
+    this.bee = new MyBee(this, this.triangle, this.sphere, this.cylinder);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -108,6 +110,7 @@ export class MyScene extends CGFscene {
     // ---- BEGIN Primitive drawing section
 
     this.panorama.display();
+
     this.translate(0, -50, 0);
     this.pushMatrix();
     this.appearance.apply();
@@ -119,6 +122,9 @@ export class MyScene extends CGFscene {
     //this.rock.display();
     //this.rockSet.display();
     this.garden.display();
+
+    this.translate(0, 50, 0);
+    this.bee.display();
 
     // ---- END Primitive drawing section
   }
