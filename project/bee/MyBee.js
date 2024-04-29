@@ -8,11 +8,14 @@ import { MyWing } from './MyWing.js';
  * @param scene - Reference to MyScene object
 */
 export class MyBee extends CGFobject {
-    constructor(scene, triangle, sphere, cylinder) {
+    constructor(scene, triangle, sphere, cylinder, pos, angle, velocity) {
         super(scene);
         this.triangle = triangle;
         this.sphere = sphere;
         this.cylinder = cylinder;
+        this.pos = pos;
+        this.angle = angle;
+        this.velocity = velocity;
         this.initBuffers();
     }
     initBuffers() {
@@ -33,7 +36,7 @@ export class MyBee extends CGFobject {
         this.eyeAppearance.setTexture(new CGFtexture(this.scene, "images/bee_eye.jpg"));
         this.eyeAppearance.setTextureWrap('REPEAT', 'REPEAT');
         this.eyeAppearance.setAmbient(1.0, 1.0, 1.0, 1.0);
-        this.eyeAppearance.setDiffuse(1.0, 1.0, 1.0, 1.0);
+        this.eyeAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
         this.eyeAppearance.setSpecular(1.0, 1.0, 1.0, 1.0);
 
         this.legAppearance = new CGFappearance(this.scene);
@@ -56,7 +59,36 @@ export class MyBee extends CGFobject {
         this.backLeg = new MyLeg(this.scene, this.cylinder, 3, 0.08, [0.0, 0.6, 1, 0.3], [0.0, -0.2, 0.8, -0.2]);
     }
 
+    reset() {
+        this.pos = [0, 0, 0];
+        this.velocity = [0, 0];
+        this.angle = 0;
+    }
+
+    update(t) {
+        this.pos[0] += t * this.velocity[0];
+        this.pos[2] += t * this.velocity[1];
+    }
+
+    turn(v) {
+        this.angle += v;
+        this.velocity[0] = Math.cos(this.angle) * Math.sqrt(Math.pow(this.velocity[0], 2) + Math.pow(this.velocity[1], 2));
+        this.velocity[1] = -Math.sin(this.angle) * Math.sqrt(Math.pow(this.velocity[0], 2) + Math.pow(this.velocity[1], 2));
+    }
+
+    accelerate(v) {
+        this.velocity[0] += Math.cos(this.angle) * v;
+        this.velocity[1] += -Math.sin(this.angle) * v;
+        if (v < 0 && Math.sqrt(Math.pow(this.velocity[0], 2) + Math.pow(this.velocity[1], 2)) <= -v) {
+            this.velocity[0] = 0;
+            this.velocity[1] = 0;
+        }
+    }
+
     display(time) {
+        this.scene.pushMatrix();
+        this.scene.translate(this.pos[0], this.pos[1], this.pos[2]);
+        this.scene.rotate(Math.PI + this.angle, 0, 1, 0);
         // Abdomen
         this.abdomenAppearance.apply();
         this.scene.pushMatrix();
@@ -194,5 +226,7 @@ export class MyBee extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.gl.disable(this.scene.gl.BLEND);
+
+        this.scene.popMatrix();
     }
 }

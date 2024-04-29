@@ -37,6 +37,9 @@ export class MyScene extends CGFscene {
     this.gardenRows = 1;
     this.gardenColumns = 1;
     this.time = 0;
+    this.curTime = Date.now(); //ms
+    this.speedFactor = 1;
+    this.scaleFactor = 0.5;
 
     //Initialize primitive objects
     this.triangle = new MyTriangle(this);
@@ -49,7 +52,7 @@ export class MyScene extends CGFscene {
     this.panorama = new MyPanorama(this, this.panoramaTexture);
     this.garden = new MyGarden(this, this.gardenRows, this.gardenColumns, this.triangle, this.sphere, this.cylinder);
     this.rockSet = new MyRockSet(this, 5, 5, this.rockTexture);
-    this.bee = new MyBee(this, this.triangle, this.sphere, this.cylinder);
+    this.bee = new MyBee(this, this.triangle, this.sphere, this.cylinder, [0, 0, 0], 0, [0, 0]);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -98,25 +101,37 @@ export class MyScene extends CGFscene {
     if (this.gui.isKeyPressed("KeyW")) {
       text += " W ";
       keysPressed = true;
+      this.bee.accelerate(this.speedFactor);
     }
     if (this.gui.isKeyPressed("KeyS")) {
       text += " S ";
       keysPressed = true;
+      this.bee.accelerate(-this.speedFactor);
     }
     if (this.gui.isKeyPressed("KeyA")) {
       text += " A ";
       keysPressed = true;
+      this.bee.turn(this.speedFactor / 4);
     }
     if (this.gui.isKeyPressed("KeyD")) {
       text += " D ";
       keysPressed = true;
+      this.bee.turn(-this.speedFactor / 4);
+    }
+    if (this.gui.isKeyPressed("KeyR")) {
+      text += " R ";
+      keysPressed = true;
+      this.bee.reset();
     }
     if (keysPressed)
       console.log(text);
   }
 
   update(t) {
+    let delta_t = t - this.curTime
+    this.curTime += t - this.curTime;
     this.checkKeys();
+    this.bee.update(delta_t / 1000);
   }
 
   display() {
@@ -146,11 +161,12 @@ export class MyScene extends CGFscene {
     //this.rockSet.display();
     this.garden.display();
 
-    this.translate(0, 3, 0);
+    this.translate(0, 50, 0);
 
     this.time += 1 / 60;
     let newY = Math.sin(this.time * 2 * Math.PI);
     this.translate(0, newY, 0);
+    this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
     this.bee.display(this.time);
 
     // ---- END Primitive drawing section

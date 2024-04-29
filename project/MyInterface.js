@@ -9,7 +9,7 @@ export class MyInterface extends CGFinterface {
         super();
     }
 
-    initKeys(){
+    initKeys() {
         this.scene.gui = this;
         this.processKeyboard = function () { };
         this.activeKeys = {};
@@ -47,6 +47,13 @@ export class MyInterface extends CGFinterface {
         }.bind(this));
         this.gui.add(this.scene, 'gardenColumns', 1, 10).step(1).onChange(function (value) {
             this.scene.garden.updateGarden(this.scene.gardenRows, value);
+        }.bind(this));
+
+        this.gui.add(this.scene, 'speedFactor', 0.1, 3).step(0.1).onChange(function (speedFactor) {
+            this.scene.speedFactor = speedFactor;
+        }.bind(this));
+        this.gui.add(this.scene, 'scaleFactor', 0.5, 3).step(0.1).onChange(function (scaleFactor) {
+            this.scene.scaleFactor = scaleFactor;
         }.bind(this));
 
         this.initKeys();
