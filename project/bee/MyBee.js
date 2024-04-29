@@ -10,12 +10,19 @@ import { MyWing } from './MyWing.js';
 export class MyBee extends CGFobject {
     constructor(scene, triangle, sphere, cylinder, pos, angle, velocity) {
         super(scene);
+
+        // Objects
         this.triangle = triangle;
         this.sphere = sphere;
         this.cylinder = cylinder;
         this.pos = pos;
         this.angle = angle;
         this.velocity = velocity;
+
+        // Animations
+        this.animVal = 0;
+        this.wingAnimVal = 0;
+
         this.initBuffers();
     }
     initBuffers() {
@@ -65,7 +72,10 @@ export class MyBee extends CGFobject {
         this.angle = 0;
     }
 
-    update(t) {
+    update(t, timeSinceAppStart) {
+        this.animVal = Math.sin(timeSinceAppStart * 2 * Math.PI);
+        this.wingAnimVal = Math.sin(timeSinceAppStart * 8 * Math.PI) / 2 - 0.5;
+
         this.pos[0] += t * this.velocity[0];
         this.pos[2] += t * this.velocity[1];
     }
@@ -85,8 +95,9 @@ export class MyBee extends CGFobject {
         }
     }
 
-    display(time) {
+    display() {
         this.scene.pushMatrix();
+        this.scene.translate(0, this.animVal, 0);
         this.scene.translate(this.pos[0], this.pos[1], this.pos[2]);
         this.scene.rotate(Math.PI + this.angle, 0, 1, 0);
         // Abdomen
@@ -212,7 +223,7 @@ export class MyBee extends CGFobject {
         this.wingAppearance.apply();
         this.scene.pushMatrix();
         this.scene.translate(-0.5, 0.5, 0.85);
-        this.scene.rotate(Math.sin(time * 6 * Math.PI) / 2 - 0.5, 1, 0, 0);
+        this.scene.rotate(this.wingAnimVal, 1, 0, 0);
         this.wing.display();
         this.scene.popMatrix();
 
@@ -220,7 +231,7 @@ export class MyBee extends CGFobject {
         this.wingAppearance.apply();
         this.scene.pushMatrix();
         this.scene.translate(-0.5, 0.5, -0.85);
-        this.scene.rotate(-(Math.sin(time * 6 * Math.PI) / 2 - 0.5), 1, 0, 0);
+        this.scene.rotate(-this.wingAnimVal, 1, 0, 0);
         this.scene.rotate(Math.PI, 1, 0, 0);
         this.wing.display();
         this.scene.popMatrix();

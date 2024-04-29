@@ -36,8 +36,9 @@ export class MyScene extends CGFscene {
     this.rockTexture = new CGFtexture(this, "images/rock.jpg");
     this.gardenRows = 1;
     this.gardenColumns = 1;
-    this.time = 0;
+
     this.curTime = Date.now(); //ms
+    this.appStartTime = Date.now(); //ms
     this.speedFactor = 1;
     this.scaleFactor = 0.5;
 
@@ -111,12 +112,12 @@ export class MyScene extends CGFscene {
     if (this.gui.isKeyPressed("KeyA")) {
       text += " A ";
       keysPressed = true;
-      this.bee.turn(this.speedFactor / 4);
+      this.bee.turn(this.speedFactor / 6);
     }
     if (this.gui.isKeyPressed("KeyD")) {
       text += " D ";
       keysPressed = true;
-      this.bee.turn(-this.speedFactor / 4);
+      this.bee.turn(-this.speedFactor / 6);
     }
     if (this.gui.isKeyPressed("KeyR")) {
       text += " R ";
@@ -128,10 +129,13 @@ export class MyScene extends CGFscene {
   }
 
   update(t) {
-    let delta_t = t - this.curTime
-    this.curTime += t - this.curTime;
     this.checkKeys();
-    this.bee.update(delta_t / 1000);
+
+    let delta_t = t - this.curTime
+    let timeSinceAppStart = (t - this.appStartTime) / 1000.0;
+    this.curTime += t - this.curTime;
+
+    this.bee.update(delta_t / 1000, timeSinceAppStart);
   }
 
   display() {
@@ -163,11 +167,8 @@ export class MyScene extends CGFscene {
 
     this.translate(0, 50, 0);
 
-    this.time += 1 / 60;
-    let newY = Math.sin(this.time * 2 * Math.PI);
-    this.translate(0, newY, 0);
     this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
-    this.bee.display(this.time);
+    this.bee.display();
 
     // ---- END Primitive drawing section
   }
