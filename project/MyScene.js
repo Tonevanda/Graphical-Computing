@@ -7,6 +7,7 @@ import { MyRockSet } from "./rocks/MyRockSet.js";
 import { MySphere } from "./shapes/MySphere.js";
 import { MyTriangle } from "./shapes/MyTriangle.js";
 import { MyBee } from "./bee/MyBee.js";
+import { MyBladeGrass } from "./grass/MyBladeGrass.js";
 
 /**
  * MyScene
@@ -34,6 +35,7 @@ export class MyScene extends CGFscene {
 
     this.panoramaTexture = new CGFtexture(this, "images/panorama.jpg");
     this.rockTexture = new CGFtexture(this, "images/rock.jpg");
+    this.planeTexture = new CGFtexture(this, "images/grass.jpg");
     this.gardenRows = 1;
     this.gardenColumns = 1;
     this.curTime = Date.now(); //ms
@@ -48,22 +50,18 @@ export class MyScene extends CGFscene {
 
     //Initialize scene objects
     this.axis = new CGFaxis(this);
-    this.plane = new MyPlane(this, 30);
     this.panorama = new MyPanorama(this, this.panoramaTexture);
+    this.plane = new MyPlane(this, this.planeTexture, 30);
     this.garden = new MyGarden(this, this.gardenRows, this.gardenColumns, this.triangle, this.sphere, this.cylinder);
     this.rockSet = new MyRockSet(this, 5, 5, this.rockTexture);
     this.bee = new MyBee(this, this.triangle, this.sphere, this.cylinder, [0, 0, 0], 0, 0);
+    this.grassBlade = new MyBladeGrass(this, 10, 5, 1);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.scaleFactor = 1;
 
     this.enableTextures(true);
-
-    this.texture = new CGFtexture(this, "images/grass.jpg");
-    this.appearance = new CGFappearance(this);
-    this.appearance.setTexture(this.texture);
-    this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
     // set the scene update period 
     // (to invoke the update() method every 50ms or as close as possible to that )
@@ -155,17 +153,16 @@ export class MyScene extends CGFscene {
 
     this.translate(0, -50, 0);
     this.pushMatrix();
-    this.appearance.apply();
     this.scale(400, 400, 400);
     this.rotate(-Math.PI / 2.0, 1, 0, 0);
     this.plane.display();
     this.popMatrix();
     //this.rockSet.display();
-    this.garden.display();
-
+    //this.garden.display();
     this.translate(0, 50, 0);
+    this.grassBlade.display();
 
-    this.bee.display(this.scaleFactor);
+    //this.bee.display(this.scaleFactor);
     // ---- END Primitive drawing section
   }
 
