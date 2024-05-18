@@ -12,7 +12,7 @@ void main() {
     
     float height = texCoords.y;
     
-    if (height < 0.375) {
+    if (height < 0.375 && height > 0.02) {
         
         vec2 movingTexCoords = fract(texCoords + vec2(0.0, timeFactor * 0.0025));
         
