@@ -33,9 +33,16 @@ export class MyScene extends CGFscene {
     this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
 
+    // Textures
     this.panoramaTexture = new CGFtexture(this, "images/panorama.jpg");
     this.rockTexture = new CGFtexture(this, "images/rock.jpg");
     this.planeTexture = new CGFtexture(this, "images/grass.jpg");
+
+    // Shaders
+    this.shader = new CGFshader(this.gl, "shaders/wind.vert", "shaders/wind.frag");
+    this.shader.setUniformsValues({ timeFactor: 0 });
+
+    // Variables
     this.gardenRows = 1;
     this.gardenColumns = 1;
     this.curTime = Date.now(); //ms
@@ -126,6 +133,7 @@ export class MyScene extends CGFscene {
   }
 
   update(t) {
+    this.shader.setUniformsValues({ timeFactor: t / 500 % 100 });
     this.checkKeys();
     let delta_t = (t - this.curTime) / 1000;
     this.curTime += t - this.curTime;
@@ -160,7 +168,9 @@ export class MyScene extends CGFscene {
     //this.rockSet.display();
     //this.garden.display();
     this.translate(0, 50, 0);
+    this.setActiveShader(this.shader);
     this.grassBlade.display();
+    this.setActiveShader(this.defaultShader);
 
     //this.bee.display(this.scaleFactor);
     // ---- END Primitive drawing section
