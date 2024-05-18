@@ -1,4 +1,4 @@
-import { CGFobject } from '../../lib/CGF.js';
+import { CGFappearance, CGFobject } from '../../lib/CGF.js';
 /**
 * MyPlane
 * @constructor
@@ -10,8 +10,9 @@ import { CGFobject } from '../../lib/CGF.js';
  * @param maxT - maximum texture coordinate in T
 */
 export class MyPlane extends CGFobject {
-	constructor(scene, nrDivs, minS, maxS, minT, maxT) {
+	constructor(scene, texture, nrDivs, minS, maxS, minT, maxT) {
 		super(scene);
+		this.texture = texture;
 		// nrDivs = 1 if not provided
 		nrDivs = typeof nrDivs !== 'undefined' ? nrDivs : 1;
 		this.nrDivs = nrDivs;
@@ -57,6 +58,13 @@ export class MyPlane extends CGFobject {
 		}
 		this.primitiveType = this.scene.gl.TRIANGLE_STRIP;
 		this.initGLBuffers();
+
+		this.appearance = new CGFappearance(this.scene);
+		this.appearance.setTexture(this.texture);
+		this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+		this.appearance.setAmbient(0.0, 0.0, 0.0, 1.0);
+		this.appearance.setDiffuse(1.0, 1.0, 1.0, 1.0);
+		this.appearance.setSpecular(0.0, 0.0, 0.0, 1.0);
 	}
 
 	setFillMode() {
@@ -67,6 +75,10 @@ export class MyPlane extends CGFobject {
 		this.primitiveType = this.scene.gl.LINES;
 	};
 
+	display() {
+		this.appearance.apply();
+		super.display();
+	}
 }
 
 
