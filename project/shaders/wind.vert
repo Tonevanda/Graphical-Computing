@@ -10,7 +10,7 @@ varying vec2 vTextureCoord;
 void main() {
 
     // Wind animation
-    float windEffect = aVertexPosition.y * sin(timeFactor) * 0.05 * aVertexPosition.y;
+    float windEffect = aVertexPosition.y * sin(timeFactor) * 0.1 * aVertexPosition.y;
     vec3 animatedPosition = aVertexPosition + vec3(0.0, 0.0, windEffect);
     
     gl_Position = uPMatrix * uMVMatrix * vec4(animatedPosition, 1.0);

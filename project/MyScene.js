@@ -7,7 +7,7 @@ import { MyRockSet } from "./rocks/MyRockSet.js";
 import { MySphere } from "./shapes/MySphere.js";
 import { MyTriangle } from "./shapes/MyTriangle.js";
 import { MyBee } from "./bee/MyBee.js";
-import { MyBladeGrass } from "./grass/MyBladeGrass.js";
+import { MyGrassField } from "./grass/MyGrassField.js";
 
 /**
  * MyScene
@@ -62,7 +62,8 @@ export class MyScene extends CGFscene {
     this.garden = new MyGarden(this, this.gardenRows, this.gardenColumns, this.triangle, this.sphere, this.cylinder);
     this.rockSet = new MyRockSet(this, 5, 5, this.rockTexture);
     this.bee = new MyBee(this, this.triangle, this.sphere, this.cylinder, [0, 0, 0], 0, 0);
-    this.grassBlade = new MyBladeGrass(this, 10, 5, 1);
+    //this.grassBlade = new MyBladeGrass(this, 10, 5);
+    this.grassField = new MyGrassField(this, 50, 50);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -133,7 +134,7 @@ export class MyScene extends CGFscene {
   }
 
   update(t) {
-    this.shader.setUniformsValues({ timeFactor: t / 500 % 100 });
+    this.shader.setUniformsValues({ timeFactor: t / 1000 % 100 });
     this.checkKeys();
     let delta_t = (t - this.curTime) / 1000;
     this.curTime += t - this.curTime;
@@ -156,8 +157,19 @@ export class MyScene extends CGFscene {
     // Draw axis
     if (this.displayAxis) this.axis.display();
 
-    // ---- BEGIN Primitive drawing section
+    // Drawing section
+
+    // Grass Field
+
+    this.setActiveShader(this.shader);
+    this.grassField.display();
+    this.setActiveShader(this.defaultShader);
+
+    // Sky-Sphere
+
     this.panorama.display();
+
+    // Ground
 
     this.translate(0, -50, 0);
     this.pushMatrix();
@@ -165,12 +177,14 @@ export class MyScene extends CGFscene {
     this.rotate(-Math.PI / 2.0, 1, 0, 0);
     this.plane.display();
     this.popMatrix();
+
+    // Rocks
     //this.rockSet.display();
+
+    // Garden
     //this.garden.display();
+
     this.translate(0, 50, 0);
-    this.setActiveShader(this.shader);
-    this.grassBlade.display();
-    this.setActiveShader(this.defaultShader);
 
     //this.bee.display(this.scaleFactor);
     // ---- END Primitive drawing section

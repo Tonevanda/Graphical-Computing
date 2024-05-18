@@ -5,20 +5,12 @@ import { CGFobject, CGFappearance } from '../../lib/CGF.js';
  * @param scene - Reference to MyScene object
  */
 export class MyBladeGrass extends CGFobject {
-    constructor(scene, stacks = 10, height = 5, width = 2) {
+    constructor(scene, stacks = 10, height = 5, width = 1) {
         super(scene);
         this.stacks = stacks;
         this.height = height / stacks;
         this.width = width;
         this.initBuffers();
-        this.initMaterials();
-    }
-
-    initMaterials() {
-        this.material = new CGFappearance(this.scene);
-        this.material.setAmbient(1.0, 1.0, 1.0, 1);
-        this.material.setDiffuse(1.0, 1.0, 1.0, 1);
-        this.material.setSpecular(0.1, 0.1, 0.1, 1);
     }
 
     initBuffers() {
@@ -106,6 +98,7 @@ export class MyBladeGrass extends CGFobject {
         this.texCoords.push(0, (i + 1) / this.stacks); // top
 
         this.primitiveType = this.scene.gl.TRIANGLES;
+        //this.enableNormalViz();
         this.initGLBuffers();
     }
 }
