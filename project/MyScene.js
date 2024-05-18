@@ -36,7 +36,6 @@ export class MyScene extends CGFscene {
     this.rockTexture = new CGFtexture(this, "images/rock.jpg");
     this.gardenRows = 1;
     this.gardenColumns = 1;
-
     this.curTime = Date.now(); //ms
     this.appStartTime = Date.now(); //ms
     this.speedFactor = 1;
@@ -53,7 +52,7 @@ export class MyScene extends CGFscene {
     this.panorama = new MyPanorama(this, this.panoramaTexture);
     this.garden = new MyGarden(this, this.gardenRows, this.gardenColumns, this.triangle, this.sphere, this.cylinder);
     this.rockSet = new MyRockSet(this, 5, 5, this.rockTexture);
-    this.bee = new MyBee(this, this.triangle, this.sphere, this.cylinder, [0, 0, 0], 0, [0, 0]);
+    this.bee = new MyBee(this, this.triangle, this.sphere, this.cylinder, [0, 0, 0], 0, 0);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -130,12 +129,11 @@ export class MyScene extends CGFscene {
 
   update(t) {
     this.checkKeys();
-
-    let delta_t = t - this.curTime
-    let timeSinceAppStart = (t - this.appStartTime) / 1000.0;
+    let delta_t = (t - this.curTime) / 1000;
     this.curTime += t - this.curTime;
 
-    this.bee.update(delta_t / 1000, timeSinceAppStart);
+    let timeSinceAppStart = (t - this.appStartTime) / 1000.0;
+    this.bee.update(delta_t, timeSinceAppStart);
   }
 
   display() {
@@ -167,9 +165,7 @@ export class MyScene extends CGFscene {
 
     this.translate(0, 50, 0);
 
-    this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
-    this.bee.display();
-
+    this.bee.display(this.scaleFactor);
     // ---- END Primitive drawing section
   }
 

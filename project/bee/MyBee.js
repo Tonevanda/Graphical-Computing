@@ -68,7 +68,7 @@ export class MyBee extends CGFobject {
 
     reset() {
         this.pos = [0, 0, 0];
-        this.velocity = [0, 0];
+        this.velocity = 0;
         this.angle = 0;
     }
 
@@ -76,29 +76,26 @@ export class MyBee extends CGFobject {
         this.animVal = Math.sin(timeSinceAppStart * 2 * Math.PI);
         this.wingAnimVal = Math.sin(timeSinceAppStart * 8 * Math.PI) / 2 - 0.5;
 
-        this.pos[0] += t * this.velocity[0];
-        this.pos[2] += t * this.velocity[1];
+        this.pos[0] += t * Math.cos(this.angle) * Math.sqrt(Math.pow(Math.cos(this.angle) * this.velocity, 2) + Math.pow(Math.sin(this.angle) * this.velocity, 2));
+        this.pos[2] += t * -Math.sin(this.angle) * Math.sqrt(Math.pow(Math.cos(this.angle) * this.velocity, 2) + Math.pow(Math.sin(this.angle) * this.velocity, 2));
     }
 
     turn(v) {
         this.angle += v;
-        this.velocity[0] = Math.cos(this.angle) * Math.sqrt(Math.pow(this.velocity[0], 2) + Math.pow(this.velocity[1], 2));
-        this.velocity[1] = -Math.sin(this.angle) * Math.sqrt(Math.pow(this.velocity[0], 2) + Math.pow(this.velocity[1], 2));
     }
 
     accelerate(v) {
-        this.velocity[0] += Math.cos(this.angle) * v;
-        this.velocity[1] += -Math.sin(this.angle) * v;
-        if (v < 0 && Math.sqrt(Math.pow(this.velocity[0], 2) + Math.pow(this.velocity[1], 2)) <= -v) {
-            this.velocity[0] = 0;
-            this.velocity[1] = 0;
+        this.velocity += v;
+        if (this.velocity < 0) {
+            this.velocity = 0;
         }
     }
 
-    display() {
+    display(scaleFactor) {
         this.scene.pushMatrix();
         this.scene.translate(0, this.animVal, 0);
         this.scene.translate(this.pos[0], this.pos[1], this.pos[2]);
+        this.scene.scale(scaleFactor, scaleFactor, scaleFactor);
         this.scene.rotate(Math.PI + this.angle, 0, 1, 0);
         // Abdomen
         this.abdomenAppearance.apply();

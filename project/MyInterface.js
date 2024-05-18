@@ -41,7 +41,6 @@ export class MyInterface extends CGFinterface {
         this.gui.add(this.scene, 'displayAxis').name('Display Axis');
 
         //Slider element in GUI
-        this.gui.add(this.scene, 'scaleFactor', 0.1, 5).name('Scale Factor');
         this.gui.add(this.scene, 'gardenRows', 1, 10).step(1).onChange(function (value) {
             this.scene.garden.updateGarden(value, this.scene.gardenColumns);
         }.bind(this));
