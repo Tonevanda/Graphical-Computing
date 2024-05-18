@@ -8,14 +8,22 @@ import { MyUtils } from '../MyUtils.js'
  * @param scene - Reference to MyScene object
 */
 export class MyGrassField extends CGFobject {
-    constructor(scene, row = 50, col = 50) {
+    constructor(scene, texture, row = 50, col = 50) {
         super(scene);
+        this.texture = texture;
         this.row = row;
         this.col = col;
         this.util = new MyUtils();
         this.initBuffers();
     }
     initBuffers() {
+        // Texture
+        this.appearance = new CGFappearance(this.scene);
+        this.appearance.setTexture(this.texture);
+        this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+        this.appearance.setAmbient(0.8, 0.8, 0.8, 1.0);
+        this.appearance.setDiffuse(0.5, 0.5, 0.5, 1.0);
+        this.appearance.setSpecular(0.1, 0.1, 0.1, 1.0);
 
         this.grassBlades = [];
         for (let i = 0; i < this.row * this.col; i++) {
@@ -32,6 +40,7 @@ export class MyGrassField extends CGFobject {
 
     display() {
         this.scene.pushMatrix();
+        this.appearance.apply();
         this.scene.translate(-this.col / 2, 0, -this.row / 2);
         for (let i = 0; i < this.row; i++) {
             this.scene.pushMatrix();

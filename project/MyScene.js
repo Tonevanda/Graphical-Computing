@@ -37,6 +37,7 @@ export class MyScene extends CGFscene {
     this.panoramaTexture = new CGFtexture(this, "images/panorama.jpg");
     this.rockTexture = new CGFtexture(this, "images/rock.jpg");
     this.planeTexture = new CGFtexture(this, "images/grass.jpg");
+    this.grassBladeTexture = new CGFtexture(this, "images/grassBlade.jpg");
 
     // Shaders
     this.shader = new CGFshader(this.gl, "shaders/wind.vert", "shaders/wind.frag");
@@ -63,7 +64,7 @@ export class MyScene extends CGFscene {
     this.rockSet = new MyRockSet(this, 5, 5, this.rockTexture);
     this.bee = new MyBee(this, this.triangle, this.sphere, this.cylinder, [0, 0, 0], 0, 0);
     //this.grassBlade = new MyBladeGrass(this, 10, 5);
-    this.grassField = new MyGrassField(this, 50, 50);
+    this.grassField = new MyGrassField(this, this.grassBladeTexture, 50, 50);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
