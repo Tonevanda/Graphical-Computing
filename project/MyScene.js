@@ -38,10 +38,15 @@ export class MyScene extends CGFscene {
     this.rockTexture = new CGFtexture(this, "images/rock.jpg");
     this.planeTexture = new CGFtexture(this, "images/grass.jpg");
     this.grassBladeTexture = new CGFtexture(this, "images/grassBlade.jpg");
+    this.cloudHeightMap = new CGFtexture(this, "images/cloudMap.jpg");
 
     // Shaders
-    this.shader = new CGFshader(this.gl, "shaders/wind.vert", "shaders/wind.frag");
-    this.shader.setUniformsValues({ timeFactor: 0 });
+    this.shaders = [
+      new CGFshader(this.gl, "shaders/wind.vert", "shaders/wind.frag"),
+      new CGFshader(this.gl, "shaders/clouds.vert", "shaders/clouds.frag")
+    ];
+    this.shaders[0].setUniformsValues({ timeFactor: 0 });
+    this.shaders[1].setUniformsValues({ panoramaTexture: 0, cloudHeightMap: 1 });
 
     // Variables
     this.gardenRows = 1;
@@ -135,7 +140,8 @@ export class MyScene extends CGFscene {
   }
 
   update(t) {
-    this.shader.setUniformsValues({ timeFactor: t / 1000 % 100 });
+    this.shaders[0].setUniformsValues({ timeFactor: t / 1000 % 100 });
+    this.shaders[1].setUniformsValues({ timeFactor: t / 1000 % 100 });
     this.checkKeys();
     let delta_t = (t - this.curTime) / 1000;
     this.curTime += t - this.curTime;
@@ -162,13 +168,16 @@ export class MyScene extends CGFscene {
 
     // Grass Field
 
-    this.setActiveShader(this.shader);
-    this.grassField.display();
+    this.setActiveShader(this.shaders[0]);
+    //this.grassField.display();
     this.setActiveShader(this.defaultShader);
 
     // Sky-Sphere
 
+    this.setActiveShader(this.shaders[1]);
+    this.cloudHeightMap.bind(1);
     this.panorama.display();
+    this.setActiveShader(this.defaultShader);
 
     // Ground
 
