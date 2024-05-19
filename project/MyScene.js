@@ -1,14 +1,14 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
 import { MyCylinder } from "./shapes/MyCylinder.js";
 import { MyGarden } from "./garden/MyGarden.js";
-import { MyPanorama } from "./MyPanorama.js";
+import { MyPanorama } from "./sky/MyPanorama.js";
 import { MyPlane } from "./shapes/MyPlane.js";
 import { MyRockSet } from "./rocks/MyRockSet.js";
 import { MySphere } from "./shapes/MySphere.js";
 import { MyTriangle } from "./shapes/MyTriangle.js";
 import { MyBee } from "./bee/MyBee.js";
-import { MyPollen } from "./garden/MyPollen.js";
-import { MyHive } from "./MyHive.js";
+import { MyPollen } from "./hive/MyPollen.js";
+import { MyHive } from "./hive/MyHive.js";
 import { MyCube } from "./shapes/MyCube.js";
 import { MyGrassField } from "./grass/MyGrassField.js";
 
@@ -191,14 +191,12 @@ export class MyScene extends CGFscene {
 
 
     // Sky-Sphere
-
     this.setActiveShader(this.shaders[1]);
     this.cloudHeightMap.bind(1);
     this.panorama.display();
     this.setActiveShader(this.defaultShader);
 
     // Ground
-
     this.translate(0, -50, 0);
     this.pushMatrix();
     this.scale(400, 400, 400);
@@ -206,16 +204,18 @@ export class MyScene extends CGFscene {
     this.plane.display();
     this.popMatrix();
 
+    // Garden
     this.garden.display();
+
     // Grass Field
-
+    this.pushMatrix();
+    this.scale(2, 2, 2);
     this.setActiveShader(this.shaders[0]);
-    this.grassField.display();
+    //this.grassField.display();
     this.setActiveShader(this.defaultShader);
+    this.popMatrix();
 
-    // Rocks
-    //this.rockSet.display();
-
+    //Hive and Rock set
     this.pushMatrix();
     this.translate((this.garden.flowerSpacing * this.gardenColumns / 2) + 60 / Math.log2(this.gardenColumns + 1), 0, 0);
     this.hive.display();

@@ -148,7 +148,6 @@ export class MyBee extends CGFobject {
         for (let i = 0; i < gardenRows; i++) {
             for (let j = 0; j < gardenColumns; j++) {
                 let flowerPos = [j * this.flowerSpacing - ((this.flowerSpacing / 2) * gardenColumns - (this.flowerSpacing / 2)), i * this.flowerSpacing - ((this.flowerSpacing / 2) * gardenRows - (this.flowerSpacing / 2))]; // [x,z]
-                console.log(flowerPos);
                 let distance = Math.sqrt(Math.pow(flowerPos[0] - this.pos[0], 2) + Math.pow(flowerPos[1] - this.pos[2], 2));
 
                 if (distance < minDistance) {
@@ -167,8 +166,6 @@ export class MyBee extends CGFobject {
         let directionVector = [this.closestFlower[0] - this.pos[0], this.closestFlower[1] - this.pos[2]]
         this.angle = Math.atan2(-directionVector[1], directionVector[0]);
 
-        console.log(this.flowerIndice);
-        console.log(this.closestFlower);
         //y velocity calc
         let horizontalDist = Math.sqrt(Math.pow(directionVector[0], 2) + Math.pow(directionVector[1], 2));
         this.yvelocity = ((50 - this.flowerH) * this.velocity) / horizontalDist;
