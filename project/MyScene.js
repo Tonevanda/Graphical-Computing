@@ -55,6 +55,8 @@ export class MyScene extends CGFscene {
     // Variables
     this.gardenRows = 1;
     this.gardenColumns = 1;
+    this.grassFieldRows = 50;
+    this.grassFieldCols = 50;
     this.curTime = Date.now(); //ms
     this.appStartTime = Date.now(); //ms
     this.speedFactor = 1;
@@ -187,11 +189,6 @@ export class MyScene extends CGFscene {
 
     // Drawing section
 
-    // Grass Field
-
-    this.setActiveShader(this.shaders[0]);
-    //this.grassField.display();
-    this.setActiveShader(this.defaultShader);
 
     // Sky-Sphere
 
@@ -210,6 +207,14 @@ export class MyScene extends CGFscene {
     this.popMatrix();
 
     this.garden.display();
+    // Grass Field
+
+    this.setActiveShader(this.shaders[0]);
+    this.grassField.display();
+    this.setActiveShader(this.defaultShader);
+
+    // Rocks
+    //this.rockSet.display();
 
     this.pushMatrix();
     this.translate((this.garden.flowerSpacing * this.gardenColumns / 2) + 60 / Math.log2(this.gardenColumns + 1), 0, 0);
