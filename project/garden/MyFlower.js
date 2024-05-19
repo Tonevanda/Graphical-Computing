@@ -16,8 +16,9 @@ import { MyUtils } from '../MyUtils.js';
  * @param stemNum
 */
 export class MyFlower extends CGFobject {
-    constructor(scene, triangle, sphere, cylinder, petalRadius, petalNum, receptacleRadius, unionMax, unionMin, stemRadius, stemNum, petalAppearance, receptacleAppearance, stemAppearance, leafAppearance) {
+    constructor(scene, triangle, sphere, cylinder, pollen, petalRadius, petalNum, receptacleRadius, unionMax, unionMin, stemRadius, stemNum, petalAppearance, receptacleAppearance, stemAppearance, leafAppearance, pollenApperance) {
         super(scene);
+        this.pollen = pollen;
         this.petalRadius = petalRadius;
         this.petalNum = petalNum;
         this.receptacleRadius = receptacleRadius;
@@ -27,10 +28,12 @@ export class MyFlower extends CGFobject {
         this.stemNum = stemNum;
         this.petalAppearance = petalAppearance;
         this.receptacleAppearance = receptacleAppearance;
+        this.pollenApperance = pollenApperance;
         this.initBuffers(triangle, sphere, cylinder, stemAppearance, leafAppearance);
     }
     initBuffers(triangle, sphere, cylinder, stemAppearance, leafAppearance) {
         let util = new MyUtils();
+        this.notTaken = true;
         this.petal = new MyPetal(this.scene, triangle, this.petalRadius, Math.PI / 5);
         this.stem = new MyStem(this.scene, triangle, cylinder, this.stemRadius, this.stemNum, this.receptacleRadius * 2, stemAppearance, leafAppearance);
         this.stemPos = [];
@@ -52,6 +55,11 @@ export class MyFlower extends CGFobject {
         this.scene.pushMatrix();
         this.scene.translate(this.stemPos[0], this.stemPos[1] + this.receptacleRadius - 1, this.stemPos[2]);
         this.receptacle.display();
+        this.pollenApperance.apply();
+        this.scene.translate(0, this.receptacleRadius * 4 / 3 - 1, 0);
+        this.scene.rotate(Math.PI / 2, 1, 0, 0);
+        this.scene.scale(this.receptacleRadius / 3, this.receptacleRadius / 3, this.receptacleRadius / 3);
+        if (this.notTaken) this.pollen.display();
         this.scene.popMatrix();
         //petal
         this.petalAppearance.apply();

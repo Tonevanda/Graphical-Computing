@@ -7,6 +7,9 @@ import { MyRockSet } from "./rocks/MyRockSet.js";
 import { MySphere } from "./shapes/MySphere.js";
 import { MyTriangle } from "./shapes/MyTriangle.js";
 import { MyBee } from "./bee/MyBee.js";
+import { MyPollen } from "./garden/MyPollen.js";
+import { MyHive } from "./MyHive.js";
+import { MyCube } from "./shapes/MyCube.js";
 
 /**
  * MyScene
@@ -34,6 +37,7 @@ export class MyScene extends CGFscene {
 
     this.panoramaTexture = new CGFtexture(this, "images/panorama.jpg");
     this.rockTexture = new CGFtexture(this, "images/rock.jpg");
+    this.pollenTexture = new CGFtexture(this, "images/pollen.png");
     this.gardenRows = 1;
     this.gardenColumns = 1;
     this.curTime = Date.now(); //ms
@@ -42,17 +46,20 @@ export class MyScene extends CGFscene {
     this.scaleFactor = 0.5;
 
     //Initialize primitive objects
+    this.plane = new MyPlane(this, 30);
     this.triangle = new MyTriangle(this);
     this.sphere = new MySphere(this, 100, 100);
     this.cylinder = new MyCylinder(this, 100, 50);
+    this.pollen = new MyPollen(this, 100, 100);
+    this.cube = new MyCube(this);
 
     //Initialize scene objects
     this.axis = new CGFaxis(this);
-    this.plane = new MyPlane(this, 30);
     this.panorama = new MyPanorama(this, this.panoramaTexture);
-    this.garden = new MyGarden(this, this.gardenRows, this.gardenColumns, this.triangle, this.sphere, this.cylinder);
+    this.garden = new MyGarden(this, this.gardenRows, this.gardenColumns, this.triangle, this.sphere, this.cylinder, this.pollen, this.pollenTexture);
     this.rockSet = new MyRockSet(this, 5, 5, this.rockTexture);
-    this.bee = new MyBee(this, this.triangle, this.sphere, this.cylinder, [0, 0, 0], 0, 0);
+    this.bee = new MyBee(this, this.triangle, this.sphere, this.cylinder, this.pollen, [0, 0, 0], 0, 0, this.pollenTexture);
+    this.hive = new MyHive(this, this.cube);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -123,6 +130,21 @@ export class MyScene extends CGFscene {
       keysPressed = true;
       this.bee.reset();
     }
+    if (this.gui.isKeyPressed("KeyF")) {
+      text += " F ";
+      keysPressed = true;
+      this.bee.goDown(this.gardenRows, this.gardenColumns);
+    }
+    if (this.gui.isKeyPressed("KeyP")) {
+      text += " P ";
+      keysPressed = true;
+      this.bee.goingUp = true;
+    }
+    if (this.gui.isKeyPressed("KeyO")) {
+      text += " O ";
+      keysPressed = true;
+      this.bee.goHive((this.garden.flowerSpacing * this.gardenColumns / 2) + 60 / Math.log2(this.gardenColumns + 1), 0);
+    }
     if (keysPressed)
       console.log(text);
   }
@@ -160,8 +182,14 @@ export class MyScene extends CGFscene {
     this.rotate(-Math.PI / 2.0, 1, 0, 0);
     this.plane.display();
     this.popMatrix();
-    //this.rockSet.display();
     this.garden.display();
+
+    this.pushMatrix();
+    this.translate((this.garden.flowerSpacing * this.gardenColumns / 2) + 60 / Math.log2(this.gardenColumns + 1), 0, 0);
+    this.hive.display();
+    this.scale(0.5, 0.5, 0.5);
+    this.rockSet.display();
+    this.popMatrix();
 
     this.translate(0, 50, 0);
 

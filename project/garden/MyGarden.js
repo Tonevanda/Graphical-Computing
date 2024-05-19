@@ -1,19 +1,21 @@
 import { CGFappearance, CGFobject, CGFtexture } from '../../lib/CGF.js';
 import { MyFlower } from './MyFlower.js';
-import { MyUtils } from '../MyUtils.js'
+import { MyUtils } from '../MyUtils.js';
 /**
 * MyGarden
 * @constructor
  * @param scene - Reference to MyScene object
 */
 export class MyGarden extends CGFobject {
-    constructor(scene, row, col, triangle, sphere, cylinder) {
+    constructor(scene, row, col, triangle, sphere, cylinder, pollen, pollenTexture) {
         super(scene);
         this.row = row;
         this.col = col;
         this.triangle = triangle;
         this.sphere = sphere;
         this.cylinder = cylinder;
+        this.pollen = pollen;
+        this.pollenTexture = pollenTexture;
         this.initBuffers();
     }
     initBuffers() {
@@ -45,6 +47,14 @@ export class MyGarden extends CGFobject {
         leafAppearance.setDiffuse(1.0, 1.0, 1.0, 1.0);
         leafAppearance.setSpecular(0.0, 0.0, 0.0, 1.0);
 
+        let pollenApperance = new CGFappearance(this.scene);
+        pollenApperance.setTexture(this.pollenTexture);
+        pollenApperance.setTextureWrap('REPEAT', 'REPEAT');
+        pollenApperance.setAmbient(0.0, 0.0, 0.0, 1.0);
+        pollenApperance.setDiffuse(1.0, 1.0, 1.0, 1.0);
+        pollenApperance.setSpecular(0.0, 0.0, 0.0, 1.0);
+
+        this.flowerSpacing = 25;
         this.flowers = [];
         let util = new MyUtils();
         for (let i = 0; i < this.row * this.col; i++) {
@@ -53,7 +63,7 @@ export class MyGarden extends CGFobject {
             const petalRadius = util.getRandomNum(receptacleRadius * 3 / 2, receptacleRadius * 2);
             const stemRadius = util.getRandomNum(receptacleRadius / 4, receptacleRadius / 3);
             const stemNum = util.getRandomIntNum(2, 4);
-            this.flowers[i] = new MyFlower(this.scene, this.triangle, this.sphere, this.cylinder, petalRadius, petalNum, receptacleRadius, 0.4, -0.4, stemRadius, stemNum, petalAppearance, receptacleAppearance, stemAppearance, leafAppearance);
+            this.flowers[i] = new MyFlower(this.scene, this.triangle, this.sphere, this.cylinder, this.pollen, petalRadius, petalNum, receptacleRadius, 0.4, -0.4, stemRadius, stemNum, petalAppearance, receptacleAppearance, stemAppearance, leafAppearance, pollenApperance);
         }
         // 4*petalRadius*cos(Math.PI/5) + 2*receptacleRadius = 3 to 7
         // 4 * receptacleRadius *0.8 * 3 / 2 + 2* receptacleRadius = 6.8 * receptacleRadius = 3 to 7
@@ -67,13 +77,13 @@ export class MyGarden extends CGFobject {
 
     display() {
         this.scene.pushMatrix();
-        this.scene.translate(-this.col / 2 * 30, 0, -this.row / 2 * 30);
+        this.scene.translate(-(this.flowerSpacing / 2) * this.col + (this.flowerSpacing / 2), 0, -(this.flowerSpacing / 2) * this.row + (this.flowerSpacing / 2));
         for (let i = 0; i < this.row; i++) {
             this.scene.pushMatrix();
-            this.scene.translate(0, 0, i * 30);
+            this.scene.translate(0, 0, i * this.flowerSpacing);
             for (let j = 0; j < this.col; j++) {
                 this.scene.pushMatrix();
-                this.scene.translate(j * 30, 0, 0);
+                this.scene.translate(j * this.flowerSpacing, 0, 0);
                 this.flowers[i * this.col + j].display();
                 this.scene.popMatrix();
             }

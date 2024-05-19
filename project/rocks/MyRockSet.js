@@ -43,7 +43,7 @@ export class MyRockSet extends CGFobject {
         this.scene.pushMatrix();
         this.appearance.apply();
         this.scene.translate(0, 5.0, 0);
-    
+
         let height = 0;
         for (let i = this.row; i > 0; i--) {
             let rockIndex = 0;
@@ -51,10 +51,10 @@ export class MyRockSet extends CGFobject {
                 for (let k = 0; k < i; k++) {
                     this.scene.pushMatrix();
                     this.scene.translate(j * 15 - (i - 1) * 7.5, height, k * 15 - (i - 1) * 7.5);
-    
+
                     this.scene.scale(this.xScale[rockIndex], this.yScale[rockIndex], this.zScale[rockIndex]);
                     this.rocks[rockIndex].display();
-    
+
                     this.scene.popMatrix();
                     rockIndex++;
                 }
