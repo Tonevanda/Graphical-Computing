@@ -105,7 +105,7 @@ export class MyBee extends CGFobject {
         if (this.goingDown) {
             this.pos[1] -= t * this.yvelocity;
 
-            if (this.pos[0] <= this.closestFlower[0] + 2 && this.pos[0] >= this.closestFlower[0] - 2 && this.pos[2] <= this.closestFlower[1] + 2 && this.pos[2] >= this.closestFlower[1] - 2 && this.pos[1] < -(50 - this.flowerH) + 2) {
+            if (this.pos[0] <= this.closestFlower[0] + 2 && this.pos[0] >= this.closestFlower[0] - 2 && this.pos[2] <= this.closestFlower[1] + 2 && this.pos[2] >= this.closestFlower[1] - 2 && this.pos[1] < -(60 - this.flowerH) + this.scene.garden.flowers[this.flowerIndice].receptacleRadius) {
                 this.pos[0] = this.closestFlower[0];
                 this.pos[2] = this.closestFlower[1];
                 this.velocity = 0;
@@ -168,10 +168,10 @@ export class MyBee extends CGFobject {
 
         //y velocity calc
         let horizontalDist = Math.sqrt(Math.pow(directionVector[0], 2) + Math.pow(directionVector[1], 2));
-        this.yvelocity = ((50 - this.flowerH) * this.velocity) / horizontalDist;
+        this.yvelocity = ((60 - this.flowerH) * this.velocity) / horizontalDist;
         if (this.yvelocity < 0.5) {
             this.yvelocity = 10;
-            this.velocity = (this.yvelocity * horizontalDist) / (50 - this.flowerH);
+            this.velocity = (this.yvelocity * horizontalDist) / (60 - this.flowerH);
 
         }
 

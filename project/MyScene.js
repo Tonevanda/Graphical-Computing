@@ -37,7 +37,7 @@ export class MyScene extends CGFscene {
     this.gl.depthFunc(this.gl.LEQUAL);
 
     // Textures
-    this.panoramaTexture = new CGFtexture(this, "images/panorama.jpg");
+    this.panoramaTexture = new CGFtexture(this, "images/panorama_new.jpg");
     this.rockTexture = new CGFtexture(this, "images/rock.jpg");
     this.pollenTexture = new CGFtexture(this, "images/pollen.png");
     this.planeTexture = new CGFtexture(this, "images/grass.jpg");
@@ -197,7 +197,7 @@ export class MyScene extends CGFscene {
     this.setActiveShader(this.defaultShader);
 
     // Ground
-    this.translate(0, -50, 0);
+    this.translate(0, -60, 0);
     this.pushMatrix();
     this.scale(400, 400, 400);
     this.rotate(-Math.PI / 2.0, 1, 0, 0);
@@ -211,7 +211,7 @@ export class MyScene extends CGFscene {
     this.pushMatrix();
     this.scale(2, 2, 2);
     this.setActiveShader(this.shaders[0]);
-    //this.grassField.display();
+    this.grassField.display();
     this.setActiveShader(this.defaultShader);
     this.popMatrix();
 
@@ -223,7 +223,7 @@ export class MyScene extends CGFscene {
     this.rockSet.display();
     this.popMatrix();
 
-    this.translate(0, 50, 0);
+    this.translate(0, 60, 0);
 
     this.bee.display(this.scaleFactor);
     // ---- END Primitive drawing section

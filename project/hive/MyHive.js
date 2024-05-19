@@ -24,32 +24,32 @@ export class MyHive extends CGFobject {
     display() {
         this.appearance.apply();
         this.scene.pushMatrix();
-        this.scene.translate(0, 30, 0);
-        this.scene.scale(25, 35, 25);
+        this.scene.translate(0, 35, 0);
+        this.scene.scale(25, 40, 25);
         this.cube.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.translate(10, 5, 10);
-        this.scene.scale(3, 25, 3);
+        this.scene.translate(10, 10, 10);
+        this.scene.scale(3, 35, 3);
         this.cube.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.translate(-10, 5, 10);
-        this.scene.scale(3, 25, 3);
+        this.scene.translate(-10, 10, 10);
+        this.scene.scale(3, 35, 3);
         this.cube.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.translate(10, 5, -10);
-        this.scene.scale(3, 25, 3);
+        this.scene.translate(10, 10, -10);
+        this.scene.scale(3, 35, 3);
         this.cube.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.translate(-10, 5, -10);
-        this.scene.scale(3, 25, 3);
+        this.scene.translate(-10, 10, -10);
+        this.scene.scale(3, 35, 3);
         this.cube.display();
         this.scene.popMatrix();
     }
