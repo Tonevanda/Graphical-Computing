@@ -10,6 +10,7 @@ import { MyBee } from "./bee/MyBee.js";
 import { MyPollen } from "./garden/MyPollen.js";
 import { MyHive } from "./MyHive.js";
 import { MyCube } from "./shapes/MyCube.js";
+import { MyGrassField } from "./grass/MyGrassField.js";
 
 /**
  * MyScene
@@ -35,9 +36,23 @@ export class MyScene extends CGFscene {
     this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
 
+    // Textures
     this.panoramaTexture = new CGFtexture(this, "images/panorama.jpg");
     this.rockTexture = new CGFtexture(this, "images/rock.jpg");
     this.pollenTexture = new CGFtexture(this, "images/pollen.png");
+    this.planeTexture = new CGFtexture(this, "images/grass.jpg");
+    this.grassBladeTexture = new CGFtexture(this, "images/grassBlade.jpg");
+    this.cloudHeightMap = new CGFtexture(this, "images/cloudMap.jpg");
+
+    // Shaders
+    this.shaders = [
+      new CGFshader(this.gl, "shaders/wind.vert", "shaders/wind.frag"),
+      new CGFshader(this.gl, "shaders/clouds.vert", "shaders/clouds.frag")
+    ];
+    this.shaders[0].setUniformsValues({ timeFactor: 0 });
+    this.shaders[1].setUniformsValues({ panoramaTexture: 0, cloudHeightMap: 1 });
+
+    // Variables
     this.gardenRows = 1;
     this.gardenColumns = 1;
     this.curTime = Date.now(); //ms
@@ -46,7 +61,7 @@ export class MyScene extends CGFscene {
     this.scaleFactor = 0.5;
 
     //Initialize primitive objects
-    this.plane = new MyPlane(this, 30);
+    this.plane = new MyPlane(this, this.planeTexture, 30);
     this.triangle = new MyTriangle(this);
     this.sphere = new MySphere(this, 100, 100);
     this.cylinder = new MyCylinder(this, 100, 50);
@@ -60,17 +75,13 @@ export class MyScene extends CGFscene {
     this.rockSet = new MyRockSet(this, 5, 5, this.rockTexture);
     this.bee = new MyBee(this, this.triangle, this.sphere, this.cylinder, this.pollen, [0, 0, 0], 0, 0, this.pollenTexture);
     this.hive = new MyHive(this, this.cube);
+    this.grassField = new MyGrassField(this, this.grassBladeTexture, 50, 50);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.scaleFactor = 1;
 
     this.enableTextures(true);
-
-    this.texture = new CGFtexture(this, "images/grass.jpg");
-    this.appearance = new CGFappearance(this);
-    this.appearance.setTexture(this.texture);
-    this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
     // set the scene update period 
     // (to invoke the update() method every 50ms or as close as possible to that )
@@ -150,6 +161,8 @@ export class MyScene extends CGFscene {
   }
 
   update(t) {
+    this.shaders[0].setUniformsValues({ timeFactor: t / 1000 % 100 });
+    this.shaders[1].setUniformsValues({ timeFactor: t / 1000 % 100 });
     this.checkKeys();
     let delta_t = (t - this.curTime) / 1000;
     this.curTime += t - this.curTime;
@@ -172,16 +185,30 @@ export class MyScene extends CGFscene {
     // Draw axis
     if (this.displayAxis) this.axis.display();
 
-    // ---- BEGIN Primitive drawing section
+    // Drawing section
+
+    // Grass Field
+
+    this.setActiveShader(this.shaders[0]);
+    //this.grassField.display();
+    this.setActiveShader(this.defaultShader);
+
+    // Sky-Sphere
+
+    this.setActiveShader(this.shaders[1]);
+    this.cloudHeightMap.bind(1);
     this.panorama.display();
+    this.setActiveShader(this.defaultShader);
+
+    // Ground
 
     this.translate(0, -50, 0);
     this.pushMatrix();
-    this.appearance.apply();
     this.scale(400, 400, 400);
     this.rotate(-Math.PI / 2.0, 1, 0, 0);
     this.plane.display();
     this.popMatrix();
+
     this.garden.display();
 
     this.pushMatrix();
